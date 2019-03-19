@@ -1,0 +1,39 @@
+body {
+    margin: 40px;
+    font: 110% Helvetica, Arial, sans-serif;
+  }
+  
+  .wrapper {
+    background-color: #fff;
+    color: #444;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr) );
+    gap: 20px;
+    grid-auto-rows: minmax(150px, auto);
+  }
+  
+  .box {    
+    color: #000;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 150%;
+    text-align: center;
+    border: 3px solid #ccc;
+    height: 280px;
+  }
+  
+  .content_products{
+      margin-top: 20px;
+  }
+
+  .content_products .img_product{
+    width: 50%;
+  }
+
+  .content_products .wrapper .box:hover{
+    cursor: pointer;
+    background-color: rgb(0,140,158);
+    color:#fff;
+  }
+
+ 

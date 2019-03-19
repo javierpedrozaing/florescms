@@ -1,0 +1,98 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+form{
+	/*width:450px;*/
+	
+	margin:auto;
+	background: #fff;
+	max-width: 100%;
+	padding: 30px;
+	box-sizing:border-box;
+	margin-top:20px;
+	border-radius: 5px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.intro{
+	text-align:center;
+	margin-bottom: 40px;
+}
+
+
+#informacion > h5{
+	font-size: 1.2em;
+	font-weight: 700;
+}
+
+
+input, textarea{
+	 
+	 font-size: 16px;
+	 font-family: 'Open Sans', sans-serif;
+     color: gray;
+     width: 100%;
+     outline: none;
+     padding: 15px;
+     background: none;
+     border: none;
+     border-bottom: 1px solid gray; 
+}
+
+textarea{
+	min-height: 140px;
+	max-height: 200px;
+	max-width: 100%;
+}
+
+#boton{
+	/*background: #303F9F;*/
+	background: black;
+      border-radius: 1px;
+      border: 2px solid #f2f2f2;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      padding: 15px;
+      width: 100%;
+      -webkit-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+}
+
+#boton:hover{
+	cursor: pointer;
+	background: gray;
+	
+}
+
+.info{
+	text-align: justify;
+	font-family: 'Open Sans', sans-serif;
+}
+.intro{
+	font-size: 1.8em;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
