@@ -61,6 +61,7 @@ $tamanos = $mysqli->query($sqltamanos);
 
 				</select>
 				</div>
+				<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a>
 			</div>
 	    </div>
 

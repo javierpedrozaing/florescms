@@ -26,7 +26,7 @@
 			</div>			
 		</div>
 		</a>
-		<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a>
+	<!--	<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a> -->
   </div>
 
 <?php endforeach; ?>
