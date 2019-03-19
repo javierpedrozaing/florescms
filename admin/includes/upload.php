@@ -76,7 +76,7 @@ class  Media {
  /*--------------------------------------------------------------*/
  /* Function for Process media file
  /*--------------------------------------------------------------*/
-  public function process_media(){
+  public function process_media($color, $tamano){
     if(!empty($this->errors)){
         return false;
       }
@@ -98,7 +98,7 @@ class  Media {
     if(move_uploaded_file($this->fileTempPath,$this->productPath.'/'.$this->fileName))
     {
 
-      if($this->insert_media()){
+      if($this->insert_media($color, $tamano)){
         unset($this->fileTempPath);
         return true;
       }
@@ -178,14 +178,16 @@ class  Media {
 /*--------------------------------------------------------------*/
 /* Function for insert media image
 /*--------------------------------------------------------------*/
-  private function insert_media(){
+  private function insert_media($color, $tamano){
 
          global $db;
-         $sql  = "INSERT INTO imagen ( file_name,file_type )";
+         $sql  = "INSERT INTO imagen ( file_name,file_type, tamano_id, colores_id )";
          $sql .=" VALUES ";
          $sql .="(
                   '{$db->escape($this->fileName)}',
-                  '{$db->escape($this->fileType)}'
+                  '{$db->escape($this->fileType)}',
+                  '{$db->escape($tamano)}',
+                  '{$db->escape($color)}'
                   )";
        return ($db->query($sql) ? true : false);
 

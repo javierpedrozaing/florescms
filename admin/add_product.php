@@ -94,6 +94,7 @@ ob_start();
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
+                  <label for="">Seleccionar imagenes</label>
                     <select class="form-control" name="product-categorie">
                       <option value="">Seleccionar categoría</option>
                     <?php  foreach ($all_categories as $cat): ?>
@@ -103,8 +104,8 @@ ob_start();
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <select class="form-control" name="product-photo">
-                      <option value="">Seleccionar imagen</option>
+                  <label for="">Seleccionar imagenes</label>
+                    <select class="form-control" name="product-photo[]" multiple>                      
                     <?php  foreach ($all_photo as $photo): ?>
                       <option value="<?php echo (int)$photo['id'] ?>">
                         <?php echo $photo['file_name'] ?></option>

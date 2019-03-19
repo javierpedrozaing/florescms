@@ -1,16 +1,23 @@
 <?php
 ob_start();
 $page_title = 'Imagenes';
-  require_once('includes/load.php');
+require_once('includes/load.php');
   // Checkin What level user has permission to view this page
   //page_require_level(2);
+  
+$empaques = find_all("SELECT * FROM empaques");
+$tamanos = find_by_sql("SELECT * FROM tamano");
+$colores = find_by_sql("SELECT * FROM colores");
+
 ?>
 <?php $media_files = find_all('imagen');?>
 <?php
   if(isset($_POST['submit'])) {
   $photo = new Media();
   $photo->upload($_FILES['file_upload']);
-    if($photo->process_media()){
+  $color = $_POST['color'];
+  $tamano = $_POST['tamano'];
+    if($photo->process_media($color, $tamano)){
         $session->msg('s','Imagen actualizada exitosamente');
         redirect('media.php');
     } else{
@@ -35,6 +42,24 @@ $page_title = 'Imagenes';
             <div class="pull-right">
               <form class="form-inline" action="media.php" method="POST" enctype="multipart/form-data">
               <div class="form-group">
+              <div class="input-group">
+              <label for="">Seleccione un tamaño:</label>
+                <select name="tamano" id="">                  
+                  <?php foreach ($tamanos as $tamano) : ?>                     
+                      <option value="<?php echo $tamano["id"]; ?>"><?php echo $tamano["nombre"]; ?></option>                    
+                  <?php endforeach; ?>
+                </select>                 
+              </div>
+              <div class="input-group">
+                <label for="">Selecciona un color:</label>
+                <select name="color" id="">                  
+                    <?php foreach($colores as $color) { ?>	                    
+                      <option value="<?php echo $color["id"]; ?>"><?php echo $color["color"]; ?></option>                    
+                    <?php }  ?>                  
+                </select>
+              </div>
+
+              
                 <div class="input-group">
                   <span class="input-group-btn">
                     <input type="file" name="file_upload" multiple="multiple" class="btn btn-primary btn-file"/>

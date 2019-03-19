@@ -1,15 +1,16 @@
 1. ajustar html para que se vea en tipo grilla el listado de productos en el home
 
 2. ajustar base de datos para permitir asociar varias imagenes a las flores y dependiendo también el tamaño seleccionado
-  -cambiar relacion entre imagenes y productos a many ot many
-  - agregar a la tabla imagenes los campos color_id y tamaños id
-  - agregar campo precio a las tablas colores y tamaños
+  - cambiar relacion entre imagenes y productos a many ot many OK
+  - agregar a la tabla imagenes los campos color_id y tamaños id  OK
+  - agregar campo precio a las tablas colores y tamaños OK
 
-3. agregar campo para activar o desactivar productos
+3. agregar campo para activar o desactivar productos OK
 
 4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior
 
 5. integración de pagos online
+  - creación de tabla para registrar pagos
 
 6. hacer descuento de inventario una vez se registra el pago
 

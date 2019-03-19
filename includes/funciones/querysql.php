@@ -1,9 +1,7 @@
 <?php 
  	
   $page_title = 'Flores';
- 
-  // Checkin What level user has permission to view this page
-   #page_require_level(2);
+
   $flores = get_products();
   
 ?>

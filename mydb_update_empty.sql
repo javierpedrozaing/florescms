@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 19, 2019 at 05:01 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.1.26
+-- Host: 127.0.0.1
+-- Generation Time: Mar 19, 2019 at 09:40 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.1.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,24 +30,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agenda` (
   `id` int(11) NOT NULL,
-  `agendacol` varchar(45) DEFAULT NULL,
   `anio` varchar(45) DEFAULT NULL,
   `mes` varchar(45) DEFAULT NULL,
   `dia` varchar(45) DEFAULT NULL,
   `flores_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `agenda`
---
-
-INSERT INTO `agenda` (`id`, `agendacol`, `anio`, `mes`, `dia`, `flores_id`) VALUES
-(5, NULL, '2019', '03', '22', 5),
-(6, NULL, '2019', '03', '18', 6),
-(7, NULL, '2019', '03', '13', 7),
-(10, NULL, '2019', '03', '28', 10),
-(11, NULL, '2019', '03', '19', 11),
-(12, NULL, '2019', '04', '11', 12);
 
 -- --------------------------------------------------------
 
@@ -57,7 +44,7 @@ INSERT INTO `agenda` (`id`, `agendacol`, `anio`, `mes`, `dia`, `flores_id`) VALU
 
 CREATE TABLE `caracteristicas` (
   `id` int(11) NOT NULL,
-  `Caracteristicascol` varchar(45) DEFAULT NULL,
+  `caracteristica` varchar(45) DEFAULT NULL,
   `flores_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -72,14 +59,6 @@ CREATE TABLE `categorias` (
   `nombre` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `categorias`
---
-
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'Rosas'),
-(3, 'Flores');
-
 -- --------------------------------------------------------
 
 --
@@ -88,16 +67,9 @@ INSERT INTO `categorias` (`id`, `nombre`) VALUES
 
 CREATE TABLE `colores` (
   `id` int(11) NOT NULL,
-  `color` varchar(45) DEFAULT NULL
+  `color` varchar(45) DEFAULT NULL,
+  `precio` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `colores`
---
-
-INSERT INTO `colores` (`id`, `color`) VALUES
-(1, 'Por defecto'),
-(2, 'Blancas');
 
 -- --------------------------------------------------------
 
@@ -110,14 +82,6 @@ CREATE TABLE `empaques` (
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `empaques`
---
-
-INSERT INTO `empaques` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'Normal', NULL),
-(2, 'Caja', NULL);
 
 -- --------------------------------------------------------
 
@@ -142,25 +106,13 @@ CREATE TABLE `flores` (
   `precio` varchar(45) DEFAULT NULL,
   `sku` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
-  `empaques_id` int(11) DEFAULT NULL,
-  `tamaño_id` int(11) DEFAULT NULL,
-  `colores_id` int(11) DEFAULT NULL,
   `cantidad` varchar(45) DEFAULT NULL,
-  `imagen_id` int(11) NOT NULL,
-  `categorias_id` int(11) NOT NULL
+  `activo` tinyint(1) DEFAULT NULL,
+  `empaques_id` int(11) DEFAULT '0',
+  `tamaño_id` int(11) DEFAULT '0',
+  `colores_id` int(11) DEFAULT '0',
+  `categorias_id` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `flores`
---
-
-INSERT INTO `flores` (`id`, `nombre`, `precio`, `sku`, `descripcion`, `empaques_id`, `tamaño_id`, `colores_id`, `cantidad`, `imagen_id`, `categorias_id`) VALUES
-(5, 'Rosas', '25000', NULL, NULL, NULL, NULL, NULL, '10', 6, 1),
-(6, 'Mixtas', '20000', NULL, NULL, NULL, NULL, NULL, '10', 6, 3),
-(7, 'Orquideas', '32000', NULL, NULL, NULL, NULL, NULL, '12', 7, 3),
-(10, 'Rosas blancas', '24000', NULL, NULL, NULL, NULL, NULL, '25', 15, 1),
-(11, 'corazones para un detalle especial', '160000', NULL, NULL, NULL, NULL, NULL, '15', 12, 1),
-(12, 'rosadas', '42000', NULL, NULL, NULL, NULL, NULL, '13', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -176,25 +128,40 @@ CREATE TABLE `flores_etiquetas` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `flores_has_imagen`
+--
+
+CREATE TABLE `flores_has_imagen` (
+  `flores_id` int(11) NOT NULL,
+  `imagen_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `imagen`
 --
 
 CREATE TABLE `imagen` (
   `id` int(11) NOT NULL,
   `file_name` varchar(45) DEFAULT NULL,
-  `file_type` varchar(45) DEFAULT NULL
+  `file_type` varchar(45) DEFAULT NULL,
+  `tamaño_id` int(11) NOT NULL,
+  `colores_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `imagen`
+-- Table structure for table `pago`
 --
 
-INSERT INTO `imagen` (`id`, `file_name`, `file_type`) VALUES
-(6, 'rosasmixtas.jpg', 'image/jpeg'),
-(7, 'orquideas.jpg', 'image/jpeg'),
-(12, 'corazon.jpeg', 'image/jpeg'),
-(14, 'rosasrosadas.jpg', 'image/jpeg'),
-(15, 'rosasblancas.jpg', 'image/jpeg');
+CREATE TABLE `pago` (
+  `id` int(11) NOT NULL,
+  `referencia` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `flores_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -204,16 +171,9 @@ INSERT INTO `imagen` (`id`, `file_name`, `file_type`) VALUES
 
 CREATE TABLE `tamaño` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL
+  `nombre` varchar(45) DEFAULT NULL,
+  `precio` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tamaño`
---
-
-INSERT INTO `tamaño` (`id`, `nombre`) VALUES
-(1, 'Normal'),
-(2, 'Doblar número de rosas');
 
 -- --------------------------------------------------------
 
@@ -237,7 +197,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `imagen`, `status`, `last_login`, `user_level`) VALUES
-(1, 'Administrador', 'admin', '7c222fb2927d828af22f592134e8932480637c0d', NULL, '1', '2019-03-19 04:39:11', 1);
+(1, 'admin', 'admin', '7c222fb2927d828af22f592134e8932480637c0d', NULL, '1', '2019-03-19 21:36:40', 1),
+(2, 'javier pedroza', 'admin', '7c222fb2927d828af22f592134e8932480637c0d', NULL, '1', NULL, 1),
+(3, 'test', 'test', '7c222fb2927d828af22f592134e8932480637c0d', NULL, '1', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -309,7 +271,6 @@ ALTER TABLE `flores`
   ADD KEY `fk_flores_Empaques1_idx` (`empaques_id`),
   ADD KEY `fk_flores_tamaño1_idx` (`tamaño_id`),
   ADD KEY `fk_flores_Colores1_idx` (`colores_id`),
-  ADD KEY `fk_flores_imagen1_idx` (`imagen_id`),
   ADD KEY `fk_flores_categorias1_idx` (`categorias_id`);
 
 --
@@ -321,10 +282,27 @@ ALTER TABLE `flores_etiquetas`
   ADD KEY `fk_flores_has_etiquetas_flores1_idx` (`flores_id`);
 
 --
+-- Indexes for table `flores_has_imagen`
+--
+ALTER TABLE `flores_has_imagen`
+  ADD PRIMARY KEY (`flores_id`,`imagen_id`),
+  ADD KEY `fk_flores_has_imagen_imagen1_idx` (`imagen_id`),
+  ADD KEY `fk_flores_has_imagen_flores1_idx` (`flores_id`);
+
+--
 -- Indexes for table `imagen`
 --
 ALTER TABLE `imagen`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_imagen_tamaño1_idx` (`tamaño_id`),
+  ADD KEY `fk_imagen_colores1_idx` (`colores_id`);
+
+--
+-- Indexes for table `pago`
+--
+ALTER TABLE `pago`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pago_flores1_idx` (`flores_id`);
 
 --
 -- Indexes for table `tamaño`
@@ -336,13 +314,6 @@ ALTER TABLE `tamaño`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_user_groups1_idx` (`user_level`);
-
---
--- Indexes for table `user_groups`
---
-ALTER TABLE `user_groups`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -353,31 +324,61 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `colores`
+--
+ALTER TABLE `colores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `empaques`
+--
+ALTER TABLE `empaques`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `etiquetas`
+--
+ALTER TABLE `etiquetas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `flores`
 --
 ALTER TABLE `flores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `imagen`
 --
 ALTER TABLE `imagen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pago`
+--
+ALTER TABLE `pago`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tamaño`
+--
+ALTER TABLE `tamaño`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -400,9 +401,8 @@ ALTER TABLE `caracteristicas`
 --
 ALTER TABLE `flores`
   ADD CONSTRAINT `fk_flores_Colores1` FOREIGN KEY (`colores_id`) REFERENCES `colores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_flores_Empaques1` FOREIGN KEY (`empaques_id`) REFERENCES `empaques` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_flores_Empaques1` FOREIGN KEY (`empaques_id`) REFERENCES `empaques` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_flores_categorias1` FOREIGN KEY (`categorias_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_flores_imagen1` FOREIGN KEY (`imagen_id`) REFERENCES `imagen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_flores_tamaño1` FOREIGN KEY (`tamaño_id`) REFERENCES `tamaño` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -413,10 +413,24 @@ ALTER TABLE `flores_etiquetas`
   ADD CONSTRAINT `fk_flores_has_etiquetas_flores1` FOREIGN KEY (`flores_id`) REFERENCES `flores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `users`
+-- Constraints for table `flores_has_imagen`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `fk_users_user_groups1` FOREIGN KEY (`user_level`) REFERENCES `user_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `flores_has_imagen`
+  ADD CONSTRAINT `fk_flores_has_imagen_flores1` FOREIGN KEY (`flores_id`) REFERENCES `flores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_flores_has_imagen_imagen1` FOREIGN KEY (`imagen_id`) REFERENCES `imagen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `imagen`
+--
+ALTER TABLE `imagen`
+  ADD CONSTRAINT `fk_imagen_colores1` FOREIGN KEY (`colores_id`) REFERENCES `colores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_imagen_tamaño1` FOREIGN KEY (`tamaño_id`) REFERENCES `tamaño` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `pago`
+--
+ALTER TABLE `pago`
+  ADD CONSTRAINT `fk_pago_flores1` FOREIGN KEY (`flores_id`) REFERENCES `flores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
