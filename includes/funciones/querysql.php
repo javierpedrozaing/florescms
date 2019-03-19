@@ -11,21 +11,24 @@
 <div class="row">
 	<h3>FLORES DESTACADAS</h3>
 <?php foreach ($flores as $flor) : ?>
-<a href="detail.php?flor_id=<?php echo $flor['id']; ?>">	
-  <div class="col-xs-6 col-md-4 content_products" >	  	  
- 	<div class="wrapper">
-		<div class="box">
-		<?php if($flor['imagen_id'] === '0'): ?>
-			<img class="img-avatar img-circle" src="img/no_image.jpg" alt="">
-		<?php else: ?>
-			<img class="img_product" src="admin/uploads/products/<?php echo $flor['image'];?>">	
-		<?php endif; ?>			
-			<p><?php echo $flor["nombre"]; ?> </p>			
-			<p><?php echo $flor["categoria"]; ?> </p>			
+
+  <div class="col-xs-6 col-md-3 content_products" >	  	  
+	<a href="detail.php?flor_id=<?php echo $flor['id']; ?>">	
+		<div class="wrapper">
+			<div class="box">
+				<?php if($flor['imagen_id'] === '0'): ?>
+					<img class="img-avatar img-circle" src="img/no_image.jpg" alt="">
+				<?php else: ?>
+					<img class="img_product" src="admin/uploads/products/<?php echo $flor['image'];?>">	
+				<?php endif; ?>			
+					<p><?php echo $flor["nombre"]; ?> </p>						
+					<p><?php echo "$" . $flor["precio"]; ?> </p>					
+			</div>			
 		</div>
-	</div>
+		</a>
+		<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a>
   </div>
-</a>
+
 <?php endforeach; ?>
 </div>
 

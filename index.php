@@ -30,12 +30,7 @@
 					text-align: center;
 				}
 	
-				.container {
-					width: 100%;
-					margin: 1.6rem auto;
-					max-width: 60rem;
-					text-align: center;
-				}
+			
 	
 				.demo-picked {
 					font-size: 1.2rem;

@@ -42,4 +42,8 @@ $(".demo-picked span").on("DOMSubtreeModified",function(){
     });
 });
 
+$(".content_products .add_cart").on("click", function(e){
+    e.preventDefault();
+});
+
 });
