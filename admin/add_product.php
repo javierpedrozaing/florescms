@@ -94,7 +94,7 @@ ob_start();
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
-                  <label for="">Seleccionar imagenes</label>
+                  <label for="">Seleccionar categoría</label>
                     <select class="form-control" name="product-categorie">
                       <option value="">Seleccionar categoría</option>
                     <?php  foreach ($all_categories as $cat): ?>
@@ -102,6 +102,11 @@ ob_start();
                         <?php echo $cat['nombre'] ?></option>
                     <?php endforeach; ?>
                     </select>
+                    <div class="form-group" style="margin-top:20px;">                    
+                      <label for="">mostrar producto?</label>
+                      <input type="radio" name="activo" value="true">Si
+                      <input type="radio" name="activo" value="false">No
+                    </div>
                   </div>
                   <div class="col-md-6">
                   <label for="">Seleccionar imagenes</label>
@@ -111,6 +116,7 @@ ob_start();
                         <?php echo $photo['file_name'] ?></option>
                     <?php endforeach; ?>
                     </select>
+                   
                   </div>
                 </div>
               </div>
