@@ -1,0 +1,13 @@
+1. ajustar html para que se vea en tipo grilla el listado de productos en el home
+
+2. ajustar base de datos para permitir asociar varias imagenes a las flores y dependiendo también el tamaño seleccionado
+
+3. agregar campo para activar o desactivar productos
+
+4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior
+
+5. integración de pagos online
+
+6. hacer descuento de inventario una vez se registra el pago
+
+
