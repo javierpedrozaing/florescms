@@ -6,6 +6,11 @@
 ?>
 <?php
 $product = find_by_id('flores',(int)$_GET['id']);
+
+$imagen = $db->query("SELECT * FROM flores_has_imagen where flores_id = 6");
+$result_img = mysqli_fetch_assoc($imagen);
+
+
 $agenda_product = get_agenda_product((int)$_GET['id']);
 
 $all_categories = find_all('categorias');
@@ -26,6 +31,10 @@ if(!$product){
        $p_qty   = remove_junk($db->escape($_POST['product-quantity']));
        $p_buy   = remove_junk($db->escape($_POST['buying-price']));
        $agenda_selected = remove_junk($db->escape($_POST['agenda']));
+
+       $p_activo   = $_POST['activo'];
+       $p_description   = remove_junk($db->escape($_POST['description']));
+
        $date = date_create($agenda_selected);     
        $year = date_format($date, 'Y');
        $month = date_format($date, 'm');
@@ -37,6 +46,7 @@ if(!$product){
        }
        $query   = "UPDATE flores SET";
        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
+       $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
        $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}',imagen_id='{$media_id}'";
        $query  .=" WHERE id ='{$product['id']}'";
        $result = $db->query($query);
@@ -104,12 +114,17 @@ if(!$product){
                        <?php echo remove_junk($cat['nombre']); ?></option>
                    <?php endforeach; ?>
                  </select>
+                 <div class="form-group" style="margin-top:20px;">                    
+                      <label for="">mostrar producto?</label>
+                      <input type="radio" name="activo"  <?php if($product["activo"] == 1): echo "checked";  endif; ?> value="true">Si
+                      <input type="radio" name="activo"  <?php if($product["activo"] == 0): echo "checked";  endif; ?> value="false">No
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <select class="form-control" name="product-photo">
+                  <div class="col-md-6">                 
+                    <select class="form-control" name="product-photo[]" multiple>
                       <option value="">No imagen</option>
                       <?php  foreach ($all_photo as $photo): ?>
-                        <option value="<?php echo (int)$photo['id'];?>" <?php if($product['imagen_id'] === $photo['id']): echo "selected"; endif; ?> >
+                        <option value="<?php echo (int)$photo['id'];?>" <?php if($result_img["imagen_id"] === $photo['id']): echo "selected"; endif; ?> >
                           <?php echo $photo['file_name'] ?></option>
                       <?php endforeach; ?>
                     </select>
@@ -156,6 +171,17 @@ if(!$product){
                               
                </div>
               </div>
+
+               <div class="form-group">
+                  <label for="">Descripción</label><br/>
+               <div class="row">                  
+                 <div class="col-md-12">                    
+                 <textarea name="description" id="" cols="50" rows="5" >
+                 <?php echo remove_junk($product['descripcion']);?>                 
+                 </textarea>
+                 </div>
+                </div>
+               </div>
               <button type="submit" name="product" class="btn btn-danger">Actualizar</button>
           </form>
          </div>

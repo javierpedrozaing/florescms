@@ -6,7 +6,7 @@ ob_start();
   //page_require_level(2);
   $all_categories = find_all('categorias');
   $all_photo = find_all('imagen');
-?>
+?> 
 <?php
  if(isset($_POST['add_product'])){
    $req_fields = array('product-title','product-categorie','product-quantity','buying-price');
@@ -17,13 +17,16 @@ ob_start();
      $p_qty   = remove_junk($db->escape($_POST['product-quantity']));
      $p_buy   = remove_junk($db->escape($_POST['buying-price']));
      $p_agenda   = remove_junk($db->escape($_POST['agenda']));
+     $p_activo   = $_POST['activo'];
+     $p_description   = remove_junk($db->escape($_POST['description']));
      
      if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
        $media_id = '0';
      } else {
-       $media_id = remove_junk($db->escape($_POST['product-photo']));
-     }
-     
+       $media_id = $_POST['product-photo'];
+     }       
+
+
      //$date    = make_date();
      $date = date_create($p_agenda);
      
@@ -32,15 +35,26 @@ ob_start();
      $day = date_format($date, 'd');
      
      $query  = "INSERT INTO flores (";
-     $query .="nombre,cantidad,precio,categorias_id,imagen_id";
+     $query .="nombre,cantidad, descripcion, activo, precio,categorias_id";
      $query .=") VALUES (";
-     $query .="'{$p_name}', '{$p_qty}', '{$p_buy}', '{$p_cat}', '{$media_id}'";
+     $query .="'{$p_name}', '{$p_qty}', '{$p_description}', '{$p_activo}' , '{$p_buy}', '{$p_cat}'";
      $query .=")";
      $query .=" ON DUPLICATE KEY UPDATE nombre='{$p_name}'";
 
      if($db->query($query)){
       $flor_id = find_product_by_title($p_name);
+
+      foreach ($media_id as $media) {        
+        $query_relation_images = "INSERT INTO flores_has_imagen (";
+        $query_relation_images .= "flores_id, imagen_id";
+        $query_relation_images .= ") VALUES ( ";
+        $query_relation_images .= " '{$flor_id[0]['id']}', '{$media}' ";
+        $query_relation_images .= " ) ";
+        $db->query($query_relation_images);
+      }
       
+      
+
       $query_agenda = "INSERT INTO agenda (";
       $query_agenda .= "anio, mes, dia, flores_id";
       $query_agenda .= ") VALUES (";
@@ -151,6 +165,15 @@ ob_start();
                   </div>
                </div>
               </div>
+
+               <div class="form-group">
+                  <label for="">Descripción</label><br/>
+               <div class="row">                  
+                 <div class="col-md-12">                    
+                 <textarea name="description" id="" cols="50" rows="5" ></textarea>
+                 </div>
+                </div>
+               </div>
               <button type="submit" name="add_product" class="btn btn-danger">Agregar producto</button>
           </form>
          </div>
