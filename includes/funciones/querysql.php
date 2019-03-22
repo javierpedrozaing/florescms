@@ -2,8 +2,7 @@
  	
   $page_title = 'Flores';
 
-  $flores = get_products();
-  
+  $flores = get_products();  
 ?>
 <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
 <div class="row">
@@ -14,7 +13,7 @@
 	<a href="detail.php?flor_id=<?php echo $flor['id']; ?>">	
 		<div class="wrapper">
 			<div class="box">
-				<?php if($flor['imagen_id'] === '0'): ?>
+				<?php if($flor['image'] === '0'): ?>
 					<img class="img-avatar img-circle" src="img/no_image.jpg" alt="">
 				<?php else: ?>
 					<img class="img_product" src="admin/uploads/products/<?php echo $flor['image'];?>">	

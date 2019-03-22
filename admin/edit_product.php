@@ -31,8 +31,7 @@ if(!$product){
        $p_qty   = remove_junk($db->escape($_POST['product-quantity']));
        $p_buy   = remove_junk($db->escape($_POST['buying-price']));
        $agenda_selected = remove_junk($db->escape($_POST['agenda']));
-
-       $p_activo   = $_POST['activo'];
+       $p_activo   = remove_junk($db->escape($_POST['activo']));
        $p_description   = remove_junk($db->escape($_POST['description']));
 
        $date = date_create($agenda_selected);     
@@ -42,27 +41,42 @@ if(!$product){
        if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
          $media_id = '0';
        } else {
-         $media_id = remove_junk($db->escape($_POST['product-photo']));
+        $media_id = $_POST['product-photo'];
        }
+
+       // query update flores
        $query   = "UPDATE flores SET";
        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
        $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
-       $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}',imagen_id='{$media_id}'";
+       $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}'";
        $query  .=" WHERE id ='{$product['id']}'";
        $result = $db->query($query);
+       
                if($result){
-
                 $flor_id = find_product_by_title($p_name); 
                
+                // query update agenda
                 $query_agenda = "UPDATE agenda SET ";
                 $query_agenda  .=" anio ='{$year}', mes ='{$month}', dia ='{$day}', flores_id ='{$flor_id[0]['id']}'";
                 $query_agenda  .=" WHERE flores_id ='{$product['id']}'";
                 $result_query_agenda = $db->query($query_agenda);
+
+
+                // query update images
+                if ($media_id != 0) {
+                  foreach ($media_id as $media) {
+                  $clear_images = $db->query("DELETE FROM flores_has_imagen WHERE flores_id = {$flor_id[0]['id']}");   
+                    $query_images = "INSERT IGNORE INTO flores_has_imagen (flores_id, imagen_id) VALUES ('{$flor_id[0]['id']}', '{$media}') ";                
+                    $result_images = $db->query($query_images);
+                  }
+  
+                }
+               
                 if($result_query_agenda){
                   $session->msg('s',"Producto actualizado ");
                   redirect('product.php', false);
                 }else {
-                  $session->msg('d',' fallo actualizando la agenda');
+                  $session->msg('d',' fallo actualizando el producto');
                   redirect('edit_product.php?id='.$product['id'], false);
                 }
                  
@@ -116,8 +130,8 @@ if(!$product){
                  </select>
                  <div class="form-group" style="margin-top:20px;">                    
                       <label for="">mostrar producto?</label>
-                      <input type="radio" name="activo"  <?php if($product["activo"] == 1): echo "checked";  endif; ?> value="true">Si
-                      <input type="radio" name="activo"  <?php if($product["activo"] == 0): echo "checked";  endif; ?> value="false">No
+                      <input type="radio" name="activo"  <?php if($product["activo"] == 1): echo "checked";  endif; ?> value="1">Si
+                      <input type="radio" name="activo"  <?php if($product["activo"] == 0): echo "checked";  endif; ?> value="0">No
                     </div>
                   </div>
                   <div class="col-md-6">                 

@@ -25,6 +25,7 @@
                 <th class="text-center" style="width: 50px;">#</th>
                 <th> Foto</th>
                 <th> Nombre </th>
+                <th class="text-center" style="width: 10%;"> Estado </th>
                 <th class="text-center" style="width: 10%;"> Categoría </th>
                 <th class="text-center" style="width: 10%;"> En stock </th>
                 <th class="text-center" style="width: 10%;"> Precio </th>                                
@@ -45,9 +46,10 @@
                 <?php endif; ?>
                 </td>
                 <td> <?php echo remove_junk($product['nombre']); ?></td>
+                <td  class="text-center"> <span class="<?php echo $product['activo'] == 0 ? 'label label-danger' : 'label label-success' ?>"><?php echo $product['activo'] == 0 ? "Inactiva" : "Activa" ; ?></span> </td>
                 <td class="text-center"> <?php echo remove_junk($product['categoria']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['cantidad']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['precio']); ?></td>                
+                <td class="text-center"> <?php echo "$" . remove_junk($product['precio']); ?></td>                
                 <!--<td class="text-center"> <?#php echo read_date($product['date']); ?></td> -->
                 <td class="text-center">
                   <div class="btn-group">

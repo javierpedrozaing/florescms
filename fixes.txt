@@ -16,3 +16,5 @@
 
 6. hacer descuento de inventario una vez se registra el pago
 
+
+

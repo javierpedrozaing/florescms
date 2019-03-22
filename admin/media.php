@@ -78,6 +78,8 @@ $colores = find_by_sql("SELECT * FROM colores");
                   <th class="text-center" style="width: 50px;">#</th>
                   <th class="text-center">Foto</th>
                   <th class="text-center">Nombre</th>
+                  <th class="text-center">Tamaño</th>
+                  <th class="text-center">Color</th>
                   <th class="text-center" style="width: 20%;">Tipo</th>
                   <th class="text-center" style="width: 50px;">Acciones</th>
                 </tr>
@@ -89,6 +91,12 @@ $colores = find_by_sql("SELECT * FROM colores");
                   <td class="text-center">
                       <img src="uploads/products/<?php echo $media_file['file_name'];?>" class="img-thumbnail" />
                   </td>
+                <td class="text-center">
+                  <?php echo $media_file['tamano_id'];?>
+                </td>
+                <td class="text-center">
+                  <?php echo $media_file['colores_id'];?>
+                </td>
                 <td class="text-center">
                   <?php echo $media_file['file_name'];?>
                 </td>

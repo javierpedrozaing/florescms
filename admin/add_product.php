@@ -17,7 +17,7 @@ ob_start();
      $p_qty   = remove_junk($db->escape($_POST['product-quantity']));
      $p_buy   = remove_junk($db->escape($_POST['buying-price']));
      $p_agenda   = remove_junk($db->escape($_POST['agenda']));
-     $p_activo   = $_POST['activo'];
+     $p_activo   = remove_junk($db->escape($_POST['activo']));     
      $p_description   = remove_junk($db->escape($_POST['description']));
      
      if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
@@ -25,7 +25,6 @@ ob_start();
      } else {
        $media_id = $_POST['product-photo'];
      }       
-
 
      //$date    = make_date();
      $date = date_create($p_agenda);
@@ -51,9 +50,7 @@ ob_start();
         $query_relation_images .= " '{$flor_id[0]['id']}', '{$media}' ";
         $query_relation_images .= " ) ";
         $db->query($query_relation_images);
-      }
-      
-      
+      }      
 
       $query_agenda = "INSERT INTO agenda (";
       $query_agenda .= "anio, mes, dia, flores_id";
@@ -118,8 +115,8 @@ ob_start();
                     </select>
                     <div class="form-group" style="margin-top:20px;">                    
                       <label for="">mostrar producto?</label>
-                      <input type="radio" name="activo" value="true">Si
-                      <input type="radio" name="activo" value="false">No
+                      <input type="radio" name="activo" checked value="1">Si
+                      <input type="radio" name="activo" value="0">No
                     </div>
                   </div>
                   <div class="col-md-6">

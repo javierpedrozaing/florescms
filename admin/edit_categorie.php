@@ -27,7 +27,7 @@ if(isset($_POST['edit_cat'])){
        $session->msg("s", "Categoría actualizada exitosamente");
        redirect('categorie.php',false);
      } else {
-       $session->msg("d", "Sorry! Failed to Update");
+       $session->msg("d", "No se realizaron cambios");
        redirect('categorie.php',false);
      }
   } else {
