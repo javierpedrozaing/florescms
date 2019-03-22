@@ -4,12 +4,11 @@
   - cambiar relacion entre imagenes y productos a many ot many OK
   - agregar a la tabla imagenes los campos color_id y tamaños id  OK
   - agregar campo precio a las tablas colores y tamaños OK
-
-  - update edit_product for save image in relationship flores_has_imagen *
+  - update edit_product for save image in relationship flores_has_imagen OK
 
 3. agregar campo para activar o desactivar productos OK
 
-4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior
+4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior Y mostrar solo los productos activos*
 
 5. integración de pagos online
   - creación de tabla para registrar pagos
