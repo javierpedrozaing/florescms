@@ -91,14 +91,15 @@ $colores = find_by_sql("SELECT * FROM colores");
                   <td class="text-center">
                       <img src="uploads/products/<?php echo $media_file['file_name'];?>" class="img-thumbnail" />
                   </td>
+                
+                <td class="text-center">
+                  <?php echo $media_file['file_name'];?>
+                </td>
                 <td class="text-center">
                   <?php echo $media_file['tamano_id'];?>
                 </td>
                 <td class="text-center">
                   <?php echo $media_file['colores_id'];?>
-                </td>
-                <td class="text-center">
-                  <?php echo $media_file['file_name'];?>
                 </td>
                 <td class="text-center">
                   <?php echo $media_file['file_type'];?>

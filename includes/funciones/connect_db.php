@@ -1,7 +1,5 @@
 <?php 
 
-
-
 $mysqli = new mysqli("localhost", "root", "", "mydb");
 
 /* comprobar la conexión */

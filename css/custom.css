@@ -27,10 +27,10 @@ body {
   }
 
   .detail.container .add_cart{
-    position: absolute;
+    position: relative;
     bottom: 0;
     margin: 10px auto;
-    left: 35px;
+   
   }
 
 
@@ -46,6 +46,35 @@ body {
 
   a:hover, a:focus{
     text-decoration: none !important;
+  }
+
+  .content-addcart input{
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #ccc;
+    width: 60px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .detail.container{
+    border: 1px solid #ccc;
+  }
+  .detail.container .image{
+    width: auto;
+    height: auto;
+    top: 50px;
+    position: relative;
+    left: 23%;
+   
+  }
+    
+
+  .detail.container .price{
+    color: #098894;
+    font-size: 26px;
+    line-height: 30px;
+    font-weight: bold;
   }
 
  

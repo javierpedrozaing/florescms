@@ -1,74 +1,46 @@
-<?php include 'connect_db.php';?>
 
-<?php 
+<?php
+include_once '../../admin/includes/load.php';
 header('Content-Type: text/html; charset=UTF-8');
 date_default_timezone_set('America/Bogota');
 
 $fecha = $_POST['fecha']; 
+
 $date =  date_create($fecha);
 
 ?>
 <p hidden><?php print_r($date); ?>  </p>
 
+
 <?php
 $year = explode("-", $date->date)[0];
 $month = explode("-", $date->date)[1];
 $day = substr(explode("-", $date->date)[2], 0,2);
-?>
-<!-- 
-<p><#?php echo "año " . $year; ?></p>
-<p><#?php echo "mes " . $month; ?></p>
-<p><#?php echo "dia " . $day; ?></p> -->
 
-<?php 
-// $getFlores = $mysqli->query("SELECT * FROM flores f INNER JOIN agenda a 
-// ON f.id = a.flores_id
-// GROUP BY flores.id");	
-$sql = "SELECT * FROM flores
-INNER JOIN agenda ON flores.id = agenda.flores_id 
-INNER JOIN imagen ON flores.imagen_id = imagen.id 
-WHERE (agenda.dia = $day) AND (agenda.mes = $month);";
-$getFlores = $mysqli->query($sql);	
-
+$getFlores = join_product_table_ajax($day, $month);
 ?>
 
-<div id="resultado">
-<?php if (mysqli_num_rows($getFlores) > 0) : ?>
-<table class="table table-striped table-dark" cellpadding="0" cellspacing="0" class="db-table">
-	<thead class="thead-dark">
-	<tr><th scope="col">NOMBRE</th><th scope="col">PRECIO</th><th scope="col">IMAGEN</th></tr>
-	</thead>
-	 <tbody>
-	<?php while($row = mysqli_fetch_assoc($getFlores)) { ?>	    	
-	<tr>
-	<?php foreach($row as $key=>$value) { ?>		
-			<?php if ($key == "id" || $key == "nombre" || $key == "precio" || $key == "file_name" ) : ?>
-				<?php if ($key == "id"):
-					
-					$id_flor = $value;
-					
-				 endif; ?>
-				<td>
-					<a href="detail.php?flor_id=<?php echo $id_flor; ?>">	
-					<?php if ($key == "file_name"): ?>
-						<img src="admin/uploads/products/<?php echo $value; ?>" alt="">
-					<?php else : ?>
-					<?php echo $value; ?>
-					<?php endif; ?>
-					</a>	
-				</td>
-			<?php endif; ?>
-		
-    <?php } 
-     ?>
-	</tr>
 
-	</tbody>
-    <?php  }  ?>
-</table>
-<?php 
-else:
-    echo "no se encontraron resultados";
-    endif;
-?>
-</div>	
+<?php if (!empty($getFlores)) : ?>
+<?php foreach ($getFlores as $flor) : ?>
+<div class="col-xs-6 col-md-3 content_products" >	  	  
+  	<a href="detail.php?flor_id=<?php echo $flor['id']; ?>">	
+	  <div class="wrapper">
+		  <div class="box">
+			  <?php if($flor['image'] === '0'): ?>
+				  <img class="img-avatar img-circle" src="img/no_image.jpg" alt="">
+			  <?php else: ?>
+				  <img class="img_product" src="admin/uploads/products/<?php echo $flor['image'];?>">	
+			  <?php endif; ?>			
+				  <p><?php echo $flor["nombre"]; ?> </p>						
+				  <p><?php echo "$" . $flor["precio"]; ?> </p>					
+		  </div>			
+	  </div>
+	</a>
+  <!--	<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a> -->
+</div>
+
+<?php endforeach; ?>
+<?php else: ?>
+<p> No se encontraron resultados </p>
+<?php endif; ?>

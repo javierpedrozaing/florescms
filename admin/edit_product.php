@@ -10,8 +10,14 @@ $product = find_by_id('flores',(int)$_GET['id']);
 $imagen = $db->query("SELECT * FROM flores_has_imagen where flores_id = 6");
 $result_img = mysqli_fetch_assoc($imagen);
 
-
 $agenda_product = get_agenda_product((int)$_GET['id']);
+
+$anio = $agenda_product["anio"];
+$month = $agenda_product["mes"];
+$day = $agenda_product["dia"];
+
+$agenda = "$anio-$month-$day";
+
 
 $all_categories = find_all('categorias');
 $all_photo = find_all('imagen');
@@ -165,8 +171,8 @@ if(!$product){
                     <div class="input-group">
                       <span class="input-group-addon">
                        <i class="glyphicon glyphicon-shopping-cart"></i>
-                      </span>
-                      <input type="date" class="form-control" name="agenda" value="<?php echo $agenda_product; ?>">
+                      </span>                      
+                      <input type="date" class="form-control" name="agenda" value="<?php echo $agenda; ?>">
                    </div>
                   </div>
                  </div>
@@ -185,14 +191,11 @@ if(!$product){
                               
                </div>
               </div>
-
                <div class="form-group">
                   <label for="">Descripción</label><br/>
                <div class="row">                  
                  <div class="col-md-12">                    
-                 <textarea name="description" id="" cols="50" rows="5" >
-                 <?php echo remove_junk($product['descripcion']);?>                 
-                 </textarea>
+                 <textarea name="description" id="" cols="50" rows="5" ><?php print trim($product['descripcion']);?> </textarea>
                  </div>
                 </div>
                </div>

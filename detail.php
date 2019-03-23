@@ -1,6 +1,6 @@
 <?php require  'includes/templates/header.php';?>
 <div class="seccion"></div>
-<?php include_once 'includes/funciones/connect_db.php';?>
+
 
 <?php 
 
@@ -14,7 +14,7 @@ INNER JOIN imagen img ON f_img.imagen_id = img.id
 INNER JOIN categorias cat ON f.categorias_id = cat.id
 WHERE f.id = $flor_id";
 
-$getFlores = $mysqli->query($sql);	
+$getFlores = $db->query($sql);	
 $flor = mysqli_fetch_assoc($getFlores);
 
 $query_images = "SELECT * FROM imagen img
@@ -26,63 +26,65 @@ WHERE fl.id = ".$flor["id"];
 // $images = mysqli_fetch_assoc($getImages);
 
 $images = $db->query($query_images);
-$sqlempaques = "SELECT * FROM empaques";
-$empaques = $mysqli->query($sqlempaques);
-$sqltamanos = "SELECT * FROM tamano";
-$tamanos = $mysqli->query($sqltamanos);
+$sqlempaques = $db->query("SELECT * FROM empaques");
+//$empaques = $mysqli->query($sqlempaques);
+$sqltamanos = $db->query("SELECT * FROM tamano");
+//$tamanos = $mysqli->query($sqltamanos);
+
 ?>
 <div class="detail container">	
 	<div class="row">	    	
-	    <div class="col-md-6">	     
-	    		<h2><?php echo $flor["nombre"]; ?><span><h5><?php echo $flor["precio"]; ?></h5></span></h2>	    
-	    		<img style="margin: 0 140px;" src="admin/uploads/products/<?php echo $flor["imagen"] ?>" alt="">									
+	    <div class="col-md-6">	     	    		
+				<img class="image"  src="admin/uploads/products/<?php echo $flor["imagen"] ?>" alt="">													
 	    </div>
 
 	    <div class="col-md-6">
-	    	<h3> <?php echo $flor["categoria"]; ?></h3>
+			<h2><?php echo $flor["nombre"]; ?><span></span></h2>	    	    	
 	    	<div class="filtros" style="padding:20px; margin:40px 0; ">	
 				<div class="empaques">
 					<label for="">Selecciona un empaque:</label>
-				<select class="form-control name="" id="">
-					<?php while($row = mysqli_fetch_assoc($empaques)) { ?> ?>
-						<?php foreach($row as $key=>$value) { ?>	
-						<?php if ($key == "nombre" ) : ?>	
-							<option value=""><?php echo $value; ?></option>
-						<?php endif; ?>
-						<?php }  ?>
-					<?php }  ?>
+				<select class="form-control" id="empaque" name="empaque" id="">					
+						<?php foreach($sqlempaques as $empaque) { ?>	
+						
+							<option value="<?php echo $empaque["id"]; ?>" data-price="<?php echo $empaque["precio"]; ?>"><?php echo $empaque["nombre"]; ?></option>
+						
+						<?php }  ?>					
 				</select>
 				</div>
 				<div class="tamanos">
-				<label for="">Selecciona un tamaño:</label>
-				<select class="form-control" name="" id="">
-					<?php while($row = mysqli_fetch_assoc($tamanos)) { ?> ?>
-						<?php foreach($row as $key=>$value) { ?>	
-						<?php if ($key == "nombre" ) : ?>	
-							<option value=""><?php echo $value; ?></option>
-						<?php endif; ?>
-						<?php }  ?>
-					<?php }  ?>
-
-				</select>
+					<label for="">Selecciona un tamaño:</label>
+					<select class="form-control" id="tamano" name="tamano" id="">						
+						<option value="">Seleccionar tamaño</option>	
+							<?php foreach($sqltamanos as $tamano) { ?>							
+								<option value="<?php echo $tamano["id"]; ?>" data-price="<?php echo $tamano["precio"]; ?>" ><?php echo $tamano["nombre"]; ?></option>						
+							<?php }  ?>						
+					</select>
 				</div>
-				<a href="" class="btn btn-primary btn-lg add_cart" href="#" role="button">AGREGAR AL CARRITO</a>
+				
+				<p hidden class="price_product"><?php echo $flor["precio"]; ?></p>
+				<h5 class="price">$ <span><?php echo $flor["precio"]; ?></span></h5>
+				<div class="content-addcart">
+					<input type="number" id="" class="input-text qty text" step="1" min="1" max="14" name="quantity" value="1" title="Cantidad" size="4" inputmode="numeric">
+					<a href="" class="btn btn-success add_cart" href="#" role="button"> AGREGAR AL CARRITO</a>
+				</div>
+				
 			</div>
+			
 	    </div>
 
 	</div>	
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">DESCRIPCIÓN</a></li>
-				<li><a href="#tabs-2">FOTOS</a></li>
+				<li><a href="#tabs-2">IMAGENES</a></li>
 				<li><a href="#tabs-3">COMENTARIOS</a></li>
 			</ul>
 			<div id="tabs-1">
+				<h2 style="text-align: left;">DESCRIPCIÓN</h2>
 				<p> <?php echo $flor["description"]; ?>	 </p>
 			</div>
 			<div id="tabs-2">
-			<div class="row">
-					<h3>IMAGENES</h3>
+			<div class="row">					
 				<div id="aniimated-thumbnials"> 
 					<?php foreach ($images as $image) : ?>							  											
 								<a  data-lightbox="image-1" data-title="My caption" class="item" href="admin/uploads/products/<?php echo $image['file_name'];?>">

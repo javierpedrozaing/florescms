@@ -32,7 +32,7 @@ ob_start();
      $year = date_format($date, 'Y');
      $month = date_format($date, 'm');
      $day = date_format($date, 'd');
-     
+      
      $query  = "INSERT INTO flores (";
      $query .="nombre,cantidad, descripcion, activo, precio,categorias_id";
      $query .=") VALUES (";

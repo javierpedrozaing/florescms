@@ -4,8 +4,7 @@
 
 <div class="linea contenedor">
     <p></p>
-  </div>
- 
+  </div> 
 	
 	<section class="seccion-calendario clearfix">
 			<style>
@@ -50,7 +49,7 @@
                 <input type="text" hidden id="datepicker">
 
 				<div class="flores_destacadas container">					
-					<div class="row"> 
+					<div class="row" id="resultado"> 
 	    				
 						<?php include 'includes/funciones/querysql.php';?>
 						
@@ -99,27 +98,19 @@
                         "fecha" : this.getMoment().format('YYYY-MM-DD'),                
                     };
                     $.ajax({
-                                data:  parametros, //datos que se envian a traves de ajax
-                                url:   'includes/funciones/getAgenda.php', //archivo que recibe la peticion
-                                type:  'post', //método de envio
-                            
-                                success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
-                                    console.log("respuesta "+ response);
-                                        $("#resultado").html(response);
-                                }
+                        data:  parametros, //datos que se envian a traves de ajax
+                        url:   'includes/funciones/getAgenda.php', //archivo que recibe la peticion
+                        type:  'post', //método de envio                            
+                        success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve                            
+                            $("#resultado").html(response);
+                        }
                     });
                 }
 
             });
         </script>
-	
-	
-	
 
 		<!--FINALCALENDARIO-->
-
-
-
 
 <section  class="seccion">
     <h2>NOSOTROS</h2>
