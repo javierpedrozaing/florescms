@@ -69,9 +69,11 @@ if(!$product){
 
 
                 // query update images
+                
                 if ($media_id != 0) {
-                  foreach ($media_id as $media) {
                   $clear_images = $db->query("DELETE FROM flores_has_imagen WHERE flores_id = {$flor_id[0]['id']}");   
+                  foreach ($media_id as $media) {
+                  
                     $query_images = "INSERT IGNORE INTO flores_has_imagen (flores_id, imagen_id) VALUES ('{$flor_id[0]['id']}', '{$media}') ";                
                     $result_images = $db->query($query_images);
                   }

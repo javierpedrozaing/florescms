@@ -214,7 +214,7 @@ function tableExists($table){
             redirect('index.php', false);
       //if Group status Deactive
      elseif($login_level['group_status'] === '0'):
-           $session->msg('d','This level user has been band!');
+           $session->msg('d','This level user has been band!'); 
            redirect('home.php',false);
       //cheackin log in User level and Require level is Less than or equal to
      elseif($current_user['user_level'] <= (int)$require_level):
@@ -231,15 +231,15 @@ function tableExists($table){
    /*--------------------------------------------------------------*/
   function join_product_table(){
      global $db;
-     $sql  =" SELECT DISTINCT f.id,f.activo, f.nombre,f.cantidad,f.precio,c.nombre";
-    $sql  .=" AS categoria,img.file_name AS image";
-    $sql  .=" FROM flores f";
-    $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
-    $sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
-    $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
-    $sql  .=" GROUP BY f.id";
-    $sql  .=" ORDER BY f.id ASC";
-    return find_by_sql($sql);
+      $sql  =" SELECT f.id,f.activo, f.nombre,f.cantidad,f.precio,c.nombre";
+      $sql  .=" AS categoria,img.file_name AS image";
+      $sql  .=" FROM flores f";
+      $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
+      $sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
+      $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
+      $sql  .=" GROUP BY f.id";
+      $sql  .=" ORDER BY f.id ASC";
+      return find_by_sql($sql);
 
    }
 
@@ -260,6 +260,24 @@ function tableExists($table){
     return find_by_sql($sql);
 
   }
+
+  function join_product_table_ajax_before_data($day, $month){
+        
+    global $db;
+    
+    $sql  =" SELECT  f.id,f.activo, f.nombre,f.cantidad,f.precio,c.nombre";
+    $sql  .=" AS categoria,img.file_name AS image";
+    $sql  .=" FROM flores f";
+    $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
+    $sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
+    $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
+    $sql  .=" LEFT JOIN agenda ag ON ag.flores_id = f.id";           
+    $sql  .=" WHERE ag.dia < $day AND ag.mes <= $month";
+    $sql  .=" GROUP BY f.id";
+    $sql  .=" ORDER BY f.id ASC";
+    return find_by_sql($sql);
+  }
+
   /*--------------------------------------------------------------*/
   /* Function for Finding all product name
   /* Request coming from ajax.php for auto suggest

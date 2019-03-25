@@ -18,7 +18,7 @@ $(function(){
     });*///FINAL PANTALLA FLOTANTE//
 
     //MENU RESPONSIVE//
-
+ 
     $('.menu-movil').on('click', function(){
         $('.navegacion-principal').slideToggle();
     });
@@ -42,26 +42,42 @@ $(".demo-picked span").on("DOMSubtreeModified",function(){
     });
 });
 
-$(".detail.container .add_cart").on("click", function(e){
-    e.preventDefault();
-});
+
 
 $(".detail.container #empaque").on("change", function(){
-    var selected = $(this).find('option:selected');
-    var precio_producto = $(".detail.contaier .price span").text();
+    
+    var selected_empaque = $(this).find('option:selected');
+    var flor_id = $('.detail.container .flor_id').text();
+    const precio_producto = $(".detail.container .price_product").text();
     var parametros = {
         "item" : "empaque",
-        "price_empaque" : selected.data('price'),                
+        "flor_id" : flor_id,
+        "empaque_id": selected_empaque.val(),
+        "price_selected_empaque" : selected_empaque.data('price'),                
         "price_product" : precio_producto,  
     };
-    
+    console.log(parametros);
     $.ajax({
         data:  parametros, //datos que se envian a traves de ajax
         url:   'includes/funciones/updateDetailFlor.php', //archivo que recibe la peticion
+        dataType: 'JSON',
         type:  'post', //método de envio                            
         success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve                            
-            console.log(response);
-            $(".detail.container .image").html(response);
+            console.log(response.imagen);                                  
+            var precio_final = response.precio_final;
+            var image_update = response.imagen;
+            console.log(precio_final);
+           if (precio_final == 0) {
+            $(".detail.container .price span").html(precio_producto);               
+           }else{
+            $(".detail.container .price span").html(precio_final);   
+           }
+
+           if (image_update != "") {
+            $(".detail.container .image").html("<img src='admin/uploads/products/"+ image_update + "' >");
+           }
+
+           $(".detail.container .tamanos").show();
         }
     });
 
@@ -70,42 +86,56 @@ $(".detail.container #empaque").on("change", function(){
 
 $(".detail.container #tamano").on("change", function(){
     
-    var selected = $(this).find('option:selected');
-    
+    var selected_tamano = $(this).find('option:selected');
+    var flor_id = $('.detail.container .flor_id').text();
     const precio_producto = $(".detail.container .price_product").text();
     var parametros = {
         "item" : "tamano",
-        "tamano_id": selected.val(),
-        "price_tamano" : selected.data('price'),                
+        "flor_id" : flor_id,
+        "tamano_id": selected_tamano.val(),
+        "price_selected_tamano" : selected_tamano.data('price'),                
         "price_product" : precio_producto,  
-    };
-    
+    };    
     $.ajax({
         data:  parametros, //datos que se envian a traves de ajax
         url:   'includes/funciones/updateDetailFlor.php', //archivo que recibe la peticion
         dataType: 'JSON',
         type:  'post', //método de envio 
-                             
+                               
         success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve                            
-            
-            console.log(parametros);
-            var precio_final="";
-            var len = response.length;            
-            precio_final = response.precio_final;
+            console.log(response.imagen);                                  
+            var precio_final = response.precio_final;
+            var image_update = response.imagen;
             console.log(precio_final);
-           if (precio_final ==null) {
+           if (precio_final == 0) {
             $(".detail.container .price span").html(precio_producto);               
            }else{
             $(".detail.container .price span").html(precio_final);   
            }
+
+           if (image_update != "") {
+            $(".detail.container .image").html("<img src='admin/uploads/products/"+ image_update + "' >");
+           }
             
-            $(".detail.container .image").html(response);
+            
         },
         error: function(){
             console.log("error en la consulta");
         }
     });
     
+});
+
+
+// function add to cart
+
+$(".detail.container .add_cart").on("click", function(){
+    var action = "add";
+    var flor_id = $('.detail.container .flor_id').text();
+
+
+
+
 });
 
 });

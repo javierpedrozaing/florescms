@@ -35,9 +35,11 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 <div class="detail container">	
 	<div class="row">	    	
 	    <div class="col-md-6">	     	    		
-				<img class="image"  src="admin/uploads/products/<?php echo $flor["imagen"] ?>" alt="">													
+			<div class="image">
+				<img  src="admin/uploads/products/<?php echo $flor["imagen"] ?>" alt="">													
+			</div>				
 	    </div>
-
+		<p hidden class="flor_id"><?php echo $flor["id"]; ?></p>
 	    <div class="col-md-6">
 			<h2><?php echo $flor["nombre"]; ?><span></span></h2>	    	    	
 	    	<div class="filtros" style="padding:20px; margin:40px 0; ">	
@@ -65,7 +67,7 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 				<h5 class="price">$ <span><?php echo $flor["precio"]; ?></span></h5>
 				<div class="content-addcart">
 					<input type="number" id="" class="input-text qty text" step="1" min="1" max="14" name="quantity" value="1" title="Cantidad" size="4" inputmode="numeric">
-					<a href="" class="btn btn-success add_cart" href="#" role="button"> AGREGAR AL CARRITO</a>
+					<a href="add_cart.php?action=add&flor_id=<?php echo $flor['id'] ?>" class="btn btn-success add_cart" href="#" role="button"> AGREGAR AL CARRITO</a>
 				</div>
 				
 			</div>

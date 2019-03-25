@@ -5,7 +5,7 @@ require_once('includes/load.php');
   // Checkin What level user has permission to view this page
   //page_require_level(2);
   
-$empaques = find_all("SELECT * FROM empaques");
+$empaques = find_by_sql("SELECT * FROM empaques");
 $tamanos = find_by_sql("SELECT * FROM tamano");
 $colores = find_by_sql("SELECT * FROM colores");
 
@@ -17,7 +17,8 @@ $colores = find_by_sql("SELECT * FROM colores");
   $photo->upload($_FILES['file_upload']);
   $color = $_POST['color'];
   $tamano = $_POST['tamano'];
-    if($photo->process_media($color, $tamano)){
+  $empaque = $_POST['empaque'];
+    if($photo->process_media($color, $tamano, $empaque)){
         $session->msg('s','Imagen actualizada exitosamente');
         redirect('media.php');
     } else{
@@ -55,6 +56,15 @@ $colores = find_by_sql("SELECT * FROM colores");
                 <select name="color" id="">                  
                     <?php foreach($colores as $color) { ?>	                    
                       <option value="<?php echo $color["id"]; ?>"><?php echo $color["color"]; ?></option>                    
+                    <?php }  ?>                  
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="">Selecciona un empaque:</label>
+                <select name="empaque" id="">                  
+                    <?php foreach($empaques as $empaque) { ?>	                    
+                      <option value="<?php echo $empaque["id"]; ?>"><?php echo $empaque["nombre"]; ?></option>                    
                     <?php }  ?>                  
                 </select>
               </div>

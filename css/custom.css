@@ -33,6 +33,11 @@ body {
    
   }
 
+  .detail.container .image img, 
+  .detail.container .img_product{
+    width: 50%;
+  }
+
 
   .content_products .img_product{
     width: 50%;
@@ -69,12 +74,18 @@ body {
    
   }
     
+  .detail.container .tamanos{
+    display: none;
+  }
+
 
   .detail.container .price{
     color: #098894;
     font-size: 26px;
     line-height: 30px;
-    font-weight: bold;
+    font-weight: bold;    
   }
 
- 
+ .checkout .products{
+display: none;
+ }

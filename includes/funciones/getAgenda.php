@@ -18,6 +18,10 @@ $month = explode("-", $date->date)[1];
 $day = substr(explode("-", $date->date)[2], 0,2);
 
 $getFlores = join_product_table_ajax($day, $month);
+
+if (count($getFlores) == 0) {
+	$getFlores = join_product_table_ajax_before_data($day, $month);
+}
 ?>
 
 

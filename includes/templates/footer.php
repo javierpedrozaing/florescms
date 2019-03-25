@@ -26,7 +26,7 @@
   
   <!-- Include all compiled plugins (below), or include individual files as needed --> 
   <!-- <script src="js/bootstrap.js"></script> -->
-  <script src="js/bootstrap-3.3.7.js"></script>
+  <script src="js/.js"></script>
   
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
     <script>
