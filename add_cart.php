@@ -17,6 +17,7 @@
     if(isset($_GET['action']) && $_GET['action']=="add"){ 
           
         $id=intval($_GET['flor_id']); 
+        $precio_flor = intval($_GET['precio_flor']);
           
         if(isset($_SESSION['cart'][$id])){ 
               
@@ -29,7 +30,7 @@
             if(isset($flor)){                                   
                 $_SESSION['cart'][$flor['id']]=array( 
                         "quantity" => 1, 
-                        "price" => $flor['precio'] 
+                        "price" => $precio_flor 
                     ); 
                   
             }else{ 
@@ -53,42 +54,49 @@
       
     $sql=substr($sql, 0, -1).") ORDER BY nombre ASC"; 
     $flores= find_by_sql($sql); 
+
+
+    $array_products = [];
 ?>
 
 <div class="container">
 <div class="row">
     <div class="col-sm-8">	
-        <h1>Productos agregados al carrito</h1> 
+        <h1>Productos seleccionados</h1> 
     </div>
     <div class="col-sm-4">	
     <a href="index.php" class="btn btn-default" style="right:0; top: 50px; position:relative;">Seguir comprando</a> 
     </div>
 
-
 </div>
-<p class="label label-success">Para eliminar un producto ponga la cantidad en  0</p>
+<p class="label label-danger">Para eliminar un producto ponga la cantidad en  0</p>
 <form method="post" action="add_cart.php?page=cart"> 
     <table class="table table-bordered">           
         <tr> 
-            <th>Name</th> 
-            <th>Quantity</th> 
-            <th>Price</th>             
+            <th>Nombre</th> 
+            <th>Cantidad</th> 
+            <th>Precio unidad</th>             
             <th>Precio total</th>    
         </tr>                   
 
             <?php foreach ($flores as $flor):
-                $subtotal=$_SESSION['cart'][$flor['id']]['quantity']*$flor['precio']; 
+                $subtotal=$_SESSION['cart'][$flor['id']]['quantity']*$_SESSION['cart'][$flor['id']]['price']; 
                 $totalprice+=$subtotal; 
+                array_push($array_products, $flor['id']);
             ?>        
+                    
                     <tr> 
+                        
                         <td><?php echo $flor['nombre'] ?></td> 
-                        <td><input type="number" name="quantity[<?php echo $flor['id'] ?>]" size="1" value="<?php echo $_SESSION['cart'][$flor['id']]['quantity'] ?>" /></td> 
-                        <td><?php echo "$" . $flor['precio'] ?></td> 
-                        <td><?php echo "$" . $_SESSION['cart'][$flor['id']]['quantity']*$flor['precio'] ?></td> 
+                        <td><input type="number" max="<?php echo $flor["cantidad"] ?>" name="quantity[<?php echo $flor['id'] ?>]" size="1" value="<?php echo $_SESSION['cart'][$flor['id']]['quantity'] ?>" /></td> 
+                        <td><?php echo "$" . $_SESSION['cart'][$flor['id']]['price'] ?></td> 
+                        <td><?php echo "$" . $_SESSION['cart'][$flor['id']]['quantity']*$_SESSION['cart'][$flor['id']]['price'] ?></td> 
                     </tr> 
                     
             <?php endforeach; ?>  
             <tr> 
+
+            
                         <td colspan="3"><button type="submit" class="btn btn-primary" name="submit">Actualizar carrito</button></td>
                         <td colspan="2">TOTAL: <?php echo "$" . $totalprice ?> </td> 
                     </tr> 
@@ -97,20 +105,54 @@
     
 </form> 
 
-<form action="checkout" class="checkout">
-    <div class="products">
-        <?php foreach ($flores as $flor):    
-        ?>        
-            <p><input type="text" name="nombre_producto" value="<?php echo $flor['nombre'] ?>"></p> 
-            <p><input type="number" name="quantity[<?php echo $flor['id'] ?>]" size="1" value="<?php echo $_SESSION['cart'][$flor['id']]['quantity'] ?>" /></p> 
-            <p><input type="text" name="precio_total" value="<?php echo $totalprice ?>"> </p> 
-                                       <td><?php echo $_SESSION['cart'][$row['id_product']]['quantity']*$row['price'] ?>$</td> 
-            <p>Total Price: <?php echo $totalprice ?></p> 
-           
-        <?php endforeach; ?>  
+<?php
+$path = "/para_entregar_flores/version2.0/repository/PAGINAWEBFINAL%20FLORES";
+//$llave_encripcion = "138e8e67ceb"; //llave de encripción que se usa para generar la fima
+$llave_encripcion = "1111111111111111"; //llave de encripción que se usa para generar la fima
+$apikey = "4Vj8eK4rloUd272L48hsrarnUA";
+//$usuarioId = "88351"; //código único del cliente
+$usuarioId = "512321"; //código único del cliente
+$merchantId = "508029"; //código único del cliente
+$refVenta = "pago flores"; //referencia que debe ser única para cada transacción
+$iva=0; //impuestos calculados de la transacción
+$baseDevolucionIva=0; //el precio sin iva de los productos que tienen iva
+$valor=$totalprice;
 
-    </div>                
-        <button type="submit" style="left:600px; position:relative;" class="btn btn-success" name="submit">Realizar pago</button> 
+$moneda ="COP"; //la moneda con la que se realiza la compra
+$prueba = "1"; //variable para poder utilizar tarjetas de crédito de prueba
+//$telefono= $_POST['telefono'];
+$descripcion = "Pago en linea flores"; //descripción de la transacción
+$url_respuesta = "http://" . $_SERVER['HTTP_HOST']. $path ."/response_pay.php";
+$url_confirmacion = "http://" . $_SERVER['HTTP_HOST']. $path ."/confirmacion.php"; 
+$emailComprador= (isset($_POST['email'])) ? $_POST['email'] : "" ; //email al que llega confirmación del estado final de la transacción, forma de identificar al comprador
+//$firma_cadena = "$llave_encripcion~$usuarioId~$refVenta~$valor~$moneda"; //concatenación para realizar la firma
+$firma_cadena = "$apikey~$merchantId~$refVenta~$valor~$moneda"; //concatenación para realizar la firma
+
+$firma = md5($firma_cadena); //creación de la firma con la cadena previamente hecha
+
+?>
+
+
+<form action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" class="checkout" method="POST">
+    <table class="table table-bordered" style="display:none;">
+        <input name="accountId" type="hidden" value="<?php echo $usuarioId?>">
+        <input name="merchantId" type="hidden" value="<?php echo $merchantId?>">        
+        <input hidden name="description"  value="pago online flores">        
+        <input name="url_confirmacion" type="hidden" value="<?php echo $url_confirmacion ?>">
+        <input name="referenceCode" type="hidden" value="<?php echo $refVenta ?>">
+        <input hidden name="amount"  value="<?php echo $valor ?>">
+        <input name="tax" type="hidden" value="<?php echo $iva ?>">
+        <input name="currency"      type="hidden"  value="COP" >
+        <input name="taxReturnBase" type="hidden" value="<?php echo $baseDevolucionIva ?>" >
+        <input name="signature" type="hidden" value="<?php echo $firma?>">
+        <input name="extra1" type="hidden" value="<?php print_r($array_products) ?>" >
+        <input name="extra2" type="hidden" value="1245251214" >
+        <input name="buyerEmail" type="hidden" value="email@flores.com">
+        <input name="test" type="hidden" value="<?php echo $prueba?>">
+        <input name="responseUrl" type="hidden" value="<?php echo $url_respuesta?>">
+        <input name="confirmationUrl"    type="hidden"  value="<?php echo $url_confirmacion?>" >        
+    </table>               
+        <button type="submit" style="left:600px; position:relative;" class="btn btn-success btn-lg" name="submit">Realizar pago</button> 
     
 </form> 
 </div>

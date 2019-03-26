@@ -35,7 +35,7 @@ body {
 
   .detail.container .image img, 
   .detail.container .img_product{
-    width: 50%;
+    width: 20%;
   }
 
 
@@ -86,6 +86,6 @@ body {
     font-weight: bold;    
   }
 
- .checkout .products{
+ .checkout table{
 display: none;
  }

@@ -8,12 +8,15 @@
 
 3. agregar campo para activar o desactivar productos OK
 
-4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior Y mostrar solo los productos activos*
+4. ajustar filtro para que cuando en la fecha seleccionada no existan productos relacionadso muestre los productos de la fecha anterior Y mostrar solo los productos activos* OK
 
-5. integración de pagos online
-  - creación de tabla para registrar pagos
+5. integración de pagos online OK  
 
-6. hacer descuento de inventario una vez se registra el pago
-
+6. hacer descuento de inventario una vez se registra el pago OK
 
 
+
+COSAS A TENER EN CUENTA PARA PASO A PRODUCCIÓN
+
+
+En el archivo add_cart actualizar la variable path según corresponda

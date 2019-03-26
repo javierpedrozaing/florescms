@@ -71,6 +71,9 @@ function delete_by_id($table,$id)
     return ($db->affected_rows() === 1) ? true : false;
    }
 }
+
+
+
 /*--------------------------------------------------------------*/
 /* Function for Count id  By table name
 /*--------------------------------------------------------------*/
@@ -310,7 +313,7 @@ function tableExists($table){
     global $db;
     $qty = (int) $qty;
     $id  = (int)$p_id;
-    $sql = "UPDATE products SET quantity=quantity -'{$qty}' WHERE id = '{$id}'";
+    $sql = "UPDATE flores SET cantidad=cantidad -'{$qty}' WHERE id = '{$id}'";
     $result = $db->query($sql);
     return($db->affected_rows() === 1 ? true : false);
 

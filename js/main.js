@@ -133,8 +133,19 @@ $(".detail.container .add_cart").on("click", function(){
     var action = "add";
     var flor_id = $('.detail.container .flor_id').text();
 
+});
 
 
+$(".content-addcart a").on("click", function(e){
+    e.preventDefault();
+    $flor_id = $(".detail.container .id_product").text();
+    $precio_flor = $(".detail.container .price span").text();
+
+    console.log("id product: " + $flor_id);
+    console.log("precio product: " + $precio_flor);
+
+    window.location.replace("add_cart.php?action=add&flor_id="+ $flor_id + "&precio_flor="+ $precio_flor +" ");
+    
 
 });
 

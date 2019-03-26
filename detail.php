@@ -64,10 +64,11 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 				</div>
 				
 				<p hidden class="price_product"><?php echo $flor["precio"]; ?></p>
+				<p hidden class="id_product"><?php echo $flor["id"]; ?></p>
 				<h5 class="price">$ <span><?php echo $flor["precio"]; ?></span></h5>
 				<div class="content-addcart">
-					<input type="number" id="" class="input-text qty text" step="1" min="1" max="14" name="quantity" value="1" title="Cantidad" size="4" inputmode="numeric">
-					<a href="add_cart.php?action=add&flor_id=<?php echo $flor['id'] ?>" class="btn btn-success add_cart" href="#" role="button"> AGREGAR AL CARRITO</a>
+				<!--	<input type="number" id="" class="input-text qty text" step="1" min="1" max="14" name="quantity" value="1" title="Cantidad" size="4" inputmode="numeric"> -->
+					<a href="add_cart.php?action=add&flor_id=<?php echo $flor['id'] ?>&precio_flor=<?php echo $flor['precio'] ?>" class="btn btn-success add_cart" href="#" role="button"> AGREGAR AL CARRITO</a>
 				</div>
 				
 			</div>
@@ -78,7 +79,7 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">DESCRIPCIÓN</a></li>
-				<li><a href="#tabs-2">IMAGENES</a></li>
+				<li><a href="#tabs-2">GALERÍA</a></li>
 				<li><a href="#tabs-3">COMENTARIOS</a></li>
 			</ul>
 			<div id="tabs-1">
