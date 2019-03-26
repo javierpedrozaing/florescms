@@ -11,6 +11,19 @@ function find_all($table) {
      return find_by_sql("SELECT * FROM ".$db->escape($table));
    }
 }
+
+function join_all_images(){
+  global $db;
+  $sql  =" SELECT img.id, img.file_name,img.file_type ,tam.nombre as 'tamano',col.color as 'color',em.nombre as 'empaque' ";      
+      $sql  .=" FROM imagen img";      
+      $sql  .=" LEFT JOIN empaques em ON em.id = img.empaques_id";           
+      $sql  .=" LEFT JOIN colores col ON col.id = img.colores_id";  
+      $sql  .=" LEFT JOIN tamano tam ON tam.id = img.tamano_id";        
+      $sql  .=" ORDER BY img.id ASC";
+      return find_by_sql($sql);
+
+}
+
 /*--------------------------------------------------------------*/
 /* Function for Perform queries
 /*--------------------------------------------------------------*/

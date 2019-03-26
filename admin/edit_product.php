@@ -143,8 +143,7 @@ if(!$product){
                     </div>
                   </div>
                   <div class="col-md-6">                 
-                    <select class="form-control" name="product-photo[]" multiple>
-                      <option value="">No imagen</option>
+                    <select class="form-control" name="product-photo[]" multiple>                      
                       <?php  foreach ($all_photo as $photo): ?>
                         <option value="<?php echo (int)$photo['id'];?>" <?php if($result_img["imagen_id"] === $photo['id']): echo "selected"; endif; ?> >
                           <?php echo $photo['file_name'] ?></option>

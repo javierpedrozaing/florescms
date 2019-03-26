@@ -10,7 +10,10 @@ $tamanos = find_by_sql("SELECT * FROM tamano");
 $colores = find_by_sql("SELECT * FROM colores");
 
 ?>
-<?php $media_files = find_all('imagen');?>
+<?#php $media_files = find_all('imagen');?>
+
+<?php $media_files = join_all_images();?>
+
 <?php
   if(isset($_POST['submit'])) {
   $photo = new Media();
@@ -45,7 +48,7 @@ $colores = find_by_sql("SELECT * FROM colores");
               <div class="form-group">
               <div class="input-group">
               <label for="">Seleccione un tamaño:</label>
-                <select name="tamano" id="">                  
+                <select class="form-control" name="tamano" id="">                  
                   <?php foreach ($tamanos as $tamano) : ?>                     
                       <option value="<?php echo $tamano["id"]; ?>"><?php echo $tamano["nombre"]; ?></option>                    
                   <?php endforeach; ?>
@@ -53,7 +56,7 @@ $colores = find_by_sql("SELECT * FROM colores");
               </div>
               <div class="input-group">
                 <label for="">Selecciona un color:</label>
-                <select name="color" id="">                  
+                <select class="form-control" name="color" id="">                  
                     <?php foreach($colores as $color) { ?>	                    
                       <option value="<?php echo $color["id"]; ?>"><?php echo $color["color"]; ?></option>                    
                     <?php }  ?>                  
@@ -62,7 +65,7 @@ $colores = find_by_sql("SELECT * FROM colores");
 
               <div class="input-group">
                 <label for="">Selecciona un empaque:</label>
-                <select name="empaque" id="">                  
+                <select class="form-control" name="empaque" id="">                  
                     <?php foreach($empaques as $empaque) { ?>	                    
                       <option value="<?php echo $empaque["id"]; ?>"><?php echo $empaque["nombre"]; ?></option>                    
                     <?php }  ?>                  
@@ -90,6 +93,7 @@ $colores = find_by_sql("SELECT * FROM colores");
                   <th class="text-center">Nombre</th>
                   <th class="text-center">Tamaño</th>
                   <th class="text-center">Color</th>
+                  <th class="text-center">Empaque</th>
                   <th class="text-center" style="width: 20%;">Tipo</th>
                   <th class="text-center" style="width: 50px;">Acciones</th>
                 </tr>
@@ -106,10 +110,13 @@ $colores = find_by_sql("SELECT * FROM colores");
                   <?php echo $media_file['file_name'];?>
                 </td>
                 <td class="text-center">
-                  <?php echo $media_file['tamano_id'];?>
+                  <?php echo $media_file['tamano'];?>
                 </td>
                 <td class="text-center">
-                  <?php echo $media_file['colores_id'];?>
+                  <?php echo $media_file['color'];?>
+                </td>
+                <td class="text-center">
+                  <?php echo $media_file['empaque'];?>
                 </td>
                 <td class="text-center">
                   <?php echo $media_file['file_type'];?>
