@@ -21,7 +21,7 @@ $colores = find_by_sql("SELECT * FROM colores");
   $color = $_POST['color'];
   $tamano = $_POST['tamano'];
   $empaque = $_POST['empaque'];
-    if($photo->process_media($color, $tamano, $empaque)){
+    if($photo->process_media($color, $tamano, $empaque, null)){
         $session->msg('s','Imagen actualizada exitosamente');
         redirect('media.php');
     } else{

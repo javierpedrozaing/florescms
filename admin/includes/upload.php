@@ -5,6 +5,7 @@ class  Media {
   public $imageInfo;
   public $fileName;
   public $fileType;
+  public $id;
   public $fileTempPath;
   //Set destination for upload
   public $userPath = SITE_ROOT.DS.'..'.DS.'uploads/users';
@@ -76,7 +77,7 @@ class  Media {
  /*--------------------------------------------------------------*/
  /* Function for Process media file
  /*--------------------------------------------------------------*/
-  public function process_media($color, $tamano, $empaque){
+  public function process_media($color, $tamano, $empaque, $type){
     if(!empty($this->errors)){
         return false;
       }
@@ -97,11 +98,17 @@ class  Media {
 
     if(move_uploaded_file($this->fileTempPath,$this->productPath.'/'.$this->fileName))
     {
-
+      if ($type == "principal") {
+        if($this->insert_media_principal()){
+          unset($this->fileTempPath);
+          return true;
+        }
+      }
       if($this->insert_media($color, $tamano, $empaque)){
         unset($this->fileTempPath);
         return true;
       }
+      
 
     } else {
 
@@ -181,7 +188,7 @@ class  Media {
   private function insert_media($color, $tamano, $empaque){
 
          global $db;
-         $sql  = "INSERT INTO imagen ( file_name,file_type, tamano_id, colores_id, empaques_id )";
+         $sql  = "INSERT INTO imagen (file_name,file_type, tamano_id, colores_id, empaques_id )";
          $sql .=" VALUES ";
          $sql .="(
                   '{$db->escape($this->fileName)}',
@@ -190,9 +197,40 @@ class  Media {
                   '{$db->escape($color)}',
                   '{$db->escape($empaque)}'
                   )";
-       return ($db->query($sql) ? true : false);
+        
+        
+        return ($db->query($sql) ? true : false);
+       
 
   }
+  
+
+/*--------------------------------------------------------------*/
+/* Function for insert media image principal
+/*--------------------------------------------------------------*/
+private function insert_media_principal(){
+
+  global $db;
+  $sql  = "INSERT INTO imagenprincipal (file_name,file_type)";
+  $sql .=" VALUES ";
+  $sql .="(
+           '{$db->escape($this->fileName)}',
+           '{$db->escape($this->fileType)}'
+           )";
+
+
+if ($db->query($sql)) {
+  $nameFile = $db->escape($this->fileName);
+  $query = "SELECT * from imagenprincipal WHERE file_name = '{$nameFile}'";
+  $image = $db->query($query);
+  $result = $db->while_loop($image);
+  $this->id = $result['id'];
+  return true;
+}else{
+  return false;
+}
+
+}
 /*--------------------------------------------------------------*/
 /* Function for Delete media by id
 /*--------------------------------------------------------------*/

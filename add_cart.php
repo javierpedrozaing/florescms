@@ -106,7 +106,7 @@
 </form> 
 
 <?php
-$path = "/para_entregar_flores/version2.0/repository/PAGINAWEBFINAL%20FLORES";
+$path = "/flores/repository/florescms";
 //$llave_encripcion = "138e8e67ceb"; //llave de encripción que se usa para generar la fima
 $llave_encripcion = "1111111111111111"; //llave de encripción que se usa para generar la fima
 $apikey = "4Vj8eK4rloUd272L48hsrarnUA";
@@ -132,7 +132,6 @@ $firma = md5($firma_cadena); //creación de la firma con la cadena previamente h
 
 ?>
 
-
 <form action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" class="checkout" method="POST">
     <table class="table table-bordered" style="display:none;">
         <input name="accountId" type="hidden" value="<?php echo $usuarioId?>">
@@ -145,7 +144,7 @@ $firma = md5($firma_cadena); //creación de la firma con la cadena previamente h
         <input name="currency"      type="hidden"  value="COP" >
         <input name="taxReturnBase" type="hidden" value="<?php echo $baseDevolucionIva ?>" >
         <input name="signature" type="hidden" value="<?php echo $firma?>">
-        <input name="extra1" type="hidden" value="<?php print_r($array_products) ?>" >
+        <input name="extra1" type="hidden" value="<?php echo $descripcion; ?>" >
         <input name="extra2" type="hidden" value="1245251214" >
         <input name="buyerEmail" type="hidden" value="email@flores.com">
         <input name="test" type="hidden" value="<?php echo $prueba?>">

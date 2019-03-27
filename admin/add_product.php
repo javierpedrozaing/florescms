@@ -9,7 +9,7 @@ ob_start();
 ?> 
 <?php
  if(isset($_POST['add_product'])){
-   $req_fields = array('product-title','product-categorie','product-quantity','buying-price');
+   $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'agenda', 'activo');
    validate_fields($req_fields);
    if(empty($errors)){
      $p_name  = remove_junk($db->escape($_POST['product-title']));
@@ -20,10 +20,11 @@ ob_start();
      $p_activo   = remove_junk($db->escape($_POST['activo']));     
      $p_description   = remove_junk($db->escape($_POST['description']));
      
-     if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
+     
+     if (is_null($_FILES['first-image']) || $_FILES['first-image'] === "") {
        $media_id = '0';
      } else {
-       $media_id = $_POST['product-photo'];
+       $media_id = $_FILES['first-image'];
      }       
 
      //$date    = make_date();
@@ -33,10 +34,20 @@ ob_start();
      $month = date_format($date, 'm');
      $day = date_format($date, 'd');
       
-     $query  = "INSERT INTO flores (";
-     $query .="nombre,cantidad, descripcion, activo, precio,categorias_id";
+     $image = new Media();
+     $image->upload($_FILES['first-image']);
+     if($image->process_media(null, null, null, "principal")){
+          $session->msg('s','Imagen actualizada exitosamente');
+         // redirect('media.php');
+      } else{
+        $session->msg('d',join($image->errors));
+        redirect('add_product.php');
+      }
+
+     $query  = "INSERT INTO flores ("; 
+     $query .="nombre,cantidad, descripcion, activo, precio,categorias_id, imagenprincipal_id";
      $query .=") VALUES (";
-     $query .="'{$p_name}', '{$p_qty}', '{$p_description}', '{$p_activo}' , '{$p_buy}', '{$p_cat}'";
+     $query .="'{$p_name}', '{$p_qty}', '{$p_description}', '{$p_activo}' , '{$p_buy}', '{$p_cat}', '{$image->id}'";
      $query .=")";
      $query .=" ON DUPLICATE KEY UPDATE nombre='{$p_name}'";
 
@@ -93,7 +104,7 @@ ob_start();
         </div>
         <div class="panel-body">
          <div class="col-md-12">
-          <form method="post" action="add_product.php" class="clearfix">
+          <form method="post" action="add_product.php" class="clearfix" enctype="multipart/form-data">
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-addon">
@@ -119,6 +130,14 @@ ob_start();
                       <input type="radio" name="activo" value="0">No
                     </div>
                   </div>
+
+                  <div class="col-md-6">
+                    <label for="">Seleccionar imagen principal</label>
+                    <input type="file" name="first-image" class="btn btn-primary btn-file">
+
+                  </div>
+
+
                   <div class="col-md-6">
                   <label for="">Seleccionar imagenes</label>
                     <select class="form-control" name="product-photo[]" multiple>                      
