@@ -28,7 +28,7 @@ if(!$product){
 ?>
 <?php
  if(isset($_POST['product'])){
-    $req_fields = array('product-title','product-categorie','product-quantity','buying-price' );
+    $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'agenda', 'activo');
     validate_fields($req_fields);
 
    if(empty($errors)){
@@ -39,7 +39,7 @@ if(!$product){
        $agenda_selected = remove_junk($db->escape($_POST['agenda']));
        $p_activo   = remove_junk($db->escape($_POST['activo']));
        $p_description   = remove_junk($db->escape($_POST['description']));
-
+       
        $date = date_create($agenda_selected);     
        $year = date_format($date, 'Y');
        $month = date_format($date, 'm');
@@ -50,6 +50,17 @@ if(!$product){
         $media_id = $_POST['product-photo'];
        }
 
+      
+      //  $image = new Media();
+      //  $image->upload($_FILES['first-image-update']);
+      //  if($image->process_media(null, null, null, "principal")){
+      //       $session->msg('s','Imagen actualizada exitosamente');
+      //      // redirect('media.php');
+      //   } else{
+      //     $session->msg('d',join($image->errors));
+      //     redirect('add_product.php');
+      //   }
+      
        // query update flores
        $query   = "UPDATE flores SET";
        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
@@ -129,6 +140,7 @@ if(!$product){
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
+                  <label for="">Seleccionar categoría</label>
                     <select class="form-control" name="product-categorie">
                     <option value="">Seleccione la categoría</option>
                    <?php  foreach ($all_categories as $cat): ?>
@@ -142,7 +154,14 @@ if(!$product){
                       <input type="radio" name="activo"  <?php if($product["activo"] == 0): echo "checked";  endif; ?> value="0">No
                     </div>
                   </div>
-                  <div class="col-md-6">                 
+<!-- 
+                  <div class="col-md-6">
+                    <label for="">Actualizar imagen principal</label>
+                    <input type="file" name="first-image-update" class="btn btn-primary btn-file">
+                  </div> -->
+
+                  <div class="col-md-6">           
+                  <label for="">Seleccionar imagenes</label>      
                     <select class="form-control" name="product-photo[]" multiple>                      
                       <?php  foreach ($all_photo as $photo): ?>
                         <option value="<?php echo (int)$photo['id'];?>" <?php if($result_img["imagen_id"] === $photo['id']): echo "selected"; endif; ?> >
