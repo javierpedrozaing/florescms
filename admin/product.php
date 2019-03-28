@@ -39,7 +39,7 @@
               <tr>
                 <td class="text-center"><?php echo count_id();?></td>
                 <td>
-                  <?php if($product['imagenprincipal_id'] === '0'): ?>
+                  <?php if($product['imagenprincipal'] === '0'): ?>
                     <img class="img-avatar img-circle" src="uploads/products/no-image.png" alt="">
                   <?php else: ?>
                   <img class="img-avatar img-circle" src="uploads/products/<?php echo $product['imagenprincipal']; ?>" alt="">

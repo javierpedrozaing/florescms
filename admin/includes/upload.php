@@ -220,11 +220,8 @@ private function insert_media_principal(){
 
 
 if ($db->query($sql)) {
-  $nameFile = $db->escape($this->fileName);
-  $query = "SELECT * from imagenprincipal WHERE file_name = '{$nameFile}'";
-  $image = $db->query($query);
-  $result = $db->while_loop($image);
-  $this->id = $result['id'];
+  $nameFile = find_image_by_title($this->fileName);
+  $this->id = $nameFile[0]['id'];
   return true;
 }else{
   return false;

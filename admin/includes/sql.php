@@ -247,7 +247,7 @@ function tableExists($table){
    /*--------------------------------------------------------------*/
   function join_product_table(){
      global $db;
-      $sql  =" SELECT f.id,f.activo, f.nombre,f.cantidad,f.imagenprincipal_id as 'imagenprincipal', f.precio,c.nombre";
+      $sql  =" SELECT f.id,f.activo, f.nombre,f.cantidad,f.imagenprincipal_id, ip.file_name as 'imagenprincipal', f.precio,c.nombre";
       $sql  .=" AS categoria,img.file_name AS image";
       $sql  .=" FROM flores f";
       $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
@@ -307,6 +307,14 @@ function tableExists($table){
      $result = find_by_sql($sql);
      return $result;
    }
+
+   function find_image_by_title($image_name){
+    global $db;
+    $p_name = remove_junk($db->escape($image_name));
+    $sql = "SELECT id FROM imagenprincipal WHERE file_name like '%$p_name%' LIMIT 5";
+    $result = find_by_sql($sql);
+    return $result;
+  }
 
   /*--------------------------------------------------------------*/
   /* Function for Finding all product info by product title

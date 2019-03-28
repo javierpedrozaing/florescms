@@ -20,13 +20,14 @@ ob_start();
      $p_activo   = remove_junk($db->escape($_POST['activo']));     
      $p_description   = remove_junk($db->escape($_POST['description']));
      
-     
-     if (is_null($_FILES['first-image']) || $_FILES['first-image'] === "") {
-       $media_id = '0';
-     } else {
-       $media_id = $_FILES['first-image'];
-     }       
+  
+     if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
+      $media_id = '0';
+    } else {
+      $media_id = $_POST['product-photo'];
+    } 
 
+    
      //$date    = make_date();
      $date = date_create($p_agenda);
      
