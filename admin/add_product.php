@@ -9,8 +9,11 @@ ob_start();
 ?> 
 <?php
  if(isset($_POST['add_product'])){
+
+  
    $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'agenda', 'activo');
    validate_fields($req_fields);
+  
    if(empty($errors)){
      $p_name  = remove_junk($db->escape($_POST['product-title']));
      $p_cat   = remove_junk($db->escape($_POST['product-categorie']));
@@ -25,6 +28,10 @@ ob_start();
     } else {
       $media_id = $_POST['product-photo'];
     } 
+    if ($_FILES['first-image']["size"] == 0) {
+      $session->msg('d','the First image no puede estar vacio');
+      redirect('add_product.php');
+  }
 
     
      //$date    = make_date();
@@ -34,6 +41,7 @@ ob_start();
      $month = date_format($date, 'm');
      $day = date_format($date, 'd');
       
+     
      $image = new Media();
      $image->upload($_FILES['first-image']);
      if($image->process_media(null, null, null, "principal")){
@@ -44,6 +52,7 @@ ob_start();
         redirect('add_product.php');
       }
 
+    
      $query  = "INSERT INTO flores ("; 
      $query .="nombre,cantidad, descripcion, activo, precio,categorias_id, imagenprincipal_id";
      $query .=") VALUES (";
@@ -80,9 +89,12 @@ ob_start();
      }
 
    } else{
+     
      $session->msg("d", $errors);
      redirect('add_product.php',false);
    }
+
+  
 
  }
 

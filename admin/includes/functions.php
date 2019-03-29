@@ -43,7 +43,7 @@ function validate_fields($var){
 function validate_fields_image($var){
   global $errors;
   foreach ($var as $field) {
-    $val = $_FILES[$field];
+    $val = remove_junk($_FIELD[$field]);
     if(isset($val) && $val==''){
       $errors = $field ." No puede estar vacio";
       return $errors;

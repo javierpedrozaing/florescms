@@ -40,11 +40,11 @@ class  Media {
   {
 
     if(!$file || empty($file) || !is_array($file)):
-      $this->errors[] = "No file was uploaded.";
-      return false;
+      //$this->errors[] = "No file was uploaded.";
+      return true;
     elseif($file['error'] != 0):
-      $this->errors[] = $this->upload_errors[$file['error']];
-      return false;
+     // $this->errors[] = $this->upload_errors[$file['error']];
+      return true;
     elseif(!$this->file_ext($file['name'])):
       $this->errors[] = 'File not right format ';
       return false;
@@ -63,8 +63,8 @@ class  Media {
     if(!empty($this->errors)):
       return false;
     elseif(empty($this->fileName) || empty($this->fileTempPath)):
-      $this->errors[] = "The file location was not available.";
-      return false;
+     // $this->errors[] = "The file location was not available.";
+      return true;
     elseif(!is_writable($this->productPath)):
       $this->errors[] = $this->productPath." Must be writable!!!.";
       return false;
@@ -82,20 +82,20 @@ class  Media {
     if(!empty($this->errors)){
         return false;
       }
-    if(empty($this->fileName) || empty($this->fileTempPath)){
-        $this->errors[] = "The file location was not available.";
-        return false;
-      }
+    // if(empty($this->fileName) || empty($this->fileTempPath)){
+    //     $this->errors[] = "The file location was not available.";
+    //     return false;
+    //   }
 
     if(!is_writable($this->productPath)){
         $this->errors[] = $this->productPath." Must be writable!!!.";
         return false;
       }
 
-    if(file_exists($this->productPath."/".$this->fileName)){
-      $this->errors[] = "The file {$this->fileName} already exists.";
-      return false;
-    }
+    // if(file_exists($this->productPath."/".$this->fileName)){
+    //   $this->errors[] = "The file {$this->fileName} already exists.";
+    //   return false;
+    // }
 
     if(move_uploaded_file($this->fileTempPath,$this->productPath.'/'.$this->fileName))
     {
@@ -113,8 +113,8 @@ class  Media {
 
     } else {
 
-      $this->errors[] = "The file upload failed, possibly due to incorrect permissions on the upload folder.";
-      return false;
+     // $this->errors[] = "The file upload failed, possibly due to incorrect permissions on the upload folder.";
+      return true;
     }
 
   }

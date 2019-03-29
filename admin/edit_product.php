@@ -22,9 +22,6 @@ $day = $agenda_product["dia"];
 
 $agenda = "$anio-$month-$day";
 
-
-
-
 $all_categories = find_all('categorias');
 $all_photo = find_all('imagen');
 if(!$product){
@@ -68,13 +65,25 @@ if(!$product){
          redirect('product.php');
        }
       
-       // query update flores
-       $query   = "UPDATE flores SET";
-       $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
-       $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
-       $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}', imagenprincipal_id ='{$image->id}'";
-       $query  .=" WHERE id ='{$product['id']}'";
-       $result = $db->query($query);
+      
+
+       if (is_null($image->id)) {
+        // query update flores
+        $query   = "UPDATE flores SET";
+        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
+        $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
+        $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}'";
+        $query  .=" WHERE id ='{$product['id']}'";
+        $result = $db->query($query);
+        }else{
+            // query update flores
+        $query   = "UPDATE flores SET";
+        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
+        $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
+        $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}', imagenprincipal_id ='{$image->id}'";
+        $query  .=" WHERE id ='{$product['id']}'";
+        $result = $db->query($query);
+        }
        
                if($result){
                 $flor_id = find_product_by_title($p_name); 
@@ -164,7 +173,7 @@ if(!$product){
 
                   <div class="col-md-6">
                     <label for="">Actualizar imagen principal</label>
-                    <input type="file" name="first-image" value="<?php echo remove_junk($imagenprincipal['file_name']); ?>" class="btn btn-primary btn-file">
+                    <input type="file" name="first-image" value="<?php echo remove_junk("http://localhost/flores/repository/florescms/admin/uploads/products/".$imagenprincipal['file_name']); ?>" class="btn btn-primary btn-file">
                   </div>
 
                   <div class="col-md-6">           
