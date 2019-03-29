@@ -7,16 +7,22 @@
 <?php
 $product = find_by_id('flores',(int)$_GET['id']);
 
-$imagen = $db->query("SELECT * FROM flores_has_imagen where flores_id = 6");
-$result_img = mysqli_fetch_assoc($imagen);
+$imagen = $db->query("SELECT * FROM flores_has_imagen where flores_id =". (int)$_GET['id']);
+$result_img = $db->while_loop($imagen);
 
+//var_dump($result_img['imagen_id']);exit();
 $agenda_product = get_agenda_product((int)$_GET['id']);
 
+$imagenprincipal = get_imageprincipal_product((int)$product['imagenprincipal_id']);
+
+//var_dump($imagenprincipal['file_name']);exit();
 $anio = $agenda_product["anio"];
 $month = $agenda_product["mes"];
 $day = $agenda_product["dia"];
 
 $agenda = "$anio-$month-$day";
+
+
 
 
 $all_categories = find_all('categorias');
@@ -30,7 +36,8 @@ if(!$product){
  if(isset($_POST['product'])){
     $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'agenda', 'activo');
     validate_fields($req_fields);
-
+    $req_fields_image = array('first-image');
+    validate_fields_image($req_fields_image);
    if(empty($errors)){
        $p_name  = remove_junk($db->escape($_POST['product-title']));
        $p_cat   = (int)$_POST['product-categorie'];
@@ -50,22 +57,22 @@ if(!$product){
         $media_id = $_POST['product-photo'];
        }
 
-      
-      //  $image = new Media();
-      //  $image->upload($_FILES['first-image-update']);
-      //  if($image->process_media(null, null, null, "principal")){
-      //       $session->msg('s','Imagen actualizada exitosamente');
-      //      // redirect('media.php');
-      //   } else{
-      //     $session->msg('d',join($image->errors));
-      //     redirect('add_product.php');
-      //   }
+     
+      $image = new Media();
+      $image->upload($_FILES['first-image']);
+      if($image->process_media(null, null, null, "principal")){
+           $session->msg('s','Producto actualizadO exitosamente');
+          // redirect('product.php');
+       } else{
+         $session->msg('d',join($image->errors));
+         redirect('product.php');
+       }
       
        // query update flores
        $query   = "UPDATE flores SET";
        $query  .=" nombre ='{$p_name}', cantidad ='{$p_qty}',";
        $query  .=" descripcion ='{$p_description}', activo ='{$p_activo}',";
-       $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}'";
+       $query  .=" precio ='{$p_buy}', categorias_id ='{$p_cat}', imagenprincipal_id ='{$image->id}'";
        $query  .=" WHERE id ='{$product['id']}'";
        $result = $db->query($query);
        
@@ -128,7 +135,7 @@ if(!$product){
         </div>
         <div class="panel-body">
          <div class="col-md-7">
-           <form method="post" action="edit_product.php?id=<?php echo (int)$product['id'] ?>">
+           <form method="post" action="edit_product.php?id=<?php echo (int)$product['id'] ?>"  enctype="multipart/form-data">
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-addon">
@@ -154,17 +161,22 @@ if(!$product){
                       <input type="radio" name="activo"  <?php if($product["activo"] == 0): echo "checked";  endif; ?> value="0">No
                     </div>
                   </div>
-<!-- 
+
                   <div class="col-md-6">
                     <label for="">Actualizar imagen principal</label>
-                    <input type="file" name="first-image-update" class="btn btn-primary btn-file">
-                  </div> -->
+                    <input type="file" name="first-image" value="<?php echo remove_junk($imagenprincipal['file_name']); ?>" class="btn btn-primary btn-file">
+                  </div>
 
                   <div class="col-md-6">           
                   <label for="">Seleccionar imagenes</label>      
                     <select class="form-control" name="product-photo[]" multiple>                      
                       <?php  foreach ($all_photo as $photo): ?>
-                        <option value="<?php echo (int)$photo['id'];?>" <?php if($result_img["imagen_id"] === $photo['id']): echo "selected"; endif; ?> >
+                        <option value="<?php echo (int)$photo['id'];?>" <?php 
+                        foreach ($result_img as $key => $value) {
+                          if($value["imagen_id"] === $photo['id']): echo "selected"; endif;
+                        }
+                       
+                         ?> >
                           <?php echo $photo['file_name'] ?></option>
                       <?php endforeach; ?>
                     </select>

@@ -8,9 +8,10 @@ $flor_id = $_GET['flor_id'];
 ?>
 
 <?php 
-$sql = "SELECT f.id as 'id', f.nombre as 'nombre', f.descripcion as 'description', cat.nombre as 'categoria', f.precio as 'precio', img.file_name as 'imagen' FROM flores f
+$sql = "SELECT f.id as 'id', f.nombre as 'nombre', f.descripcion as 'description', cat.nombre as 'categoria', f.precio as 'precio', img.file_name as 'imagen', ip.file_name as 'imagenprincipal' FROM flores f
 INNER JOIN flores_has_imagen f_img ON f_img.flores_id = f.id
 INNER JOIN imagen img ON f_img.imagen_id = img.id
+LEFT JOIN imagenprincipal ip ON ip.id = f.imagenprincipal_id
 INNER JOIN categorias cat ON f.categorias_id = cat.id
 WHERE f.id = $flor_id";
 
@@ -36,7 +37,7 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 	<div class="row">	    	
 	    <div class="col-md-6">	     	    		
 			<div class="image">
-				<img  src="admin/uploads/products/<?php echo $flor["imagen"] ?>" alt="">													
+				<img  src="admin/uploads/products/<?php echo $flor["imagenprincipal"] ?>" alt="">													
 			</div>				
 	    </div>
 		<p hidden class="flor_id"><?php echo $flor["id"]; ?></p>

@@ -20,3 +20,6 @@ COSAS A TENER EN CUENTA PARA PASO A PRODUCCIÓN
 
 
 En el archivo add_cart actualizar la variable path según corresponda
+
+para que la imagen cambie con respecto al empaque y tamaño se debe cargar imagenes con esas dos coincidencias
+

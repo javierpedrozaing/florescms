@@ -39,6 +39,17 @@ function validate_fields($var){
     }
   }
 }
+
+function validate_fields_image($var){
+  global $errors;
+  foreach ($var as $field) {
+    $val = $_FILES[$field];
+    if(isset($val) && $val==''){
+      $errors = $field ." No puede estar vacio";
+      return $errors;
+    }
+  }
+}
 /*--------------------------------------------------------------*/
 /* Function for Display Session Message
    Ex echo displayt_msg($message);

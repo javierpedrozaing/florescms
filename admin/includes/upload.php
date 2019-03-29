@@ -38,6 +38,7 @@ class  Media {
 
   public function upload($file)
   {
+
     if(!$file || empty($file) || !is_array($file)):
       $this->errors[] = "No file was uploaded.";
       return false;

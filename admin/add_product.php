@@ -18,8 +18,7 @@ ob_start();
      $p_buy   = remove_junk($db->escape($_POST['buying-price']));
      $p_agenda   = remove_junk($db->escape($_POST['agenda']));
      $p_activo   = remove_junk($db->escape($_POST['activo']));     
-     $p_description   = remove_junk($db->escape($_POST['description']));
-     
+     $p_description   = remove_junk($db->escape($_POST['description']));     
   
      if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
       $media_id = '0';
@@ -72,7 +71,7 @@ ob_start();
 
       if ($db->query($query_agenda)) {
         $session->msg('s',"Producto agregado ");
-        redirect('add_product.php', false); 
+        redirect('product.php', false); 
       }
        
      } else {

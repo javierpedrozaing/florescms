@@ -61,6 +61,16 @@ function get_agenda_product($flores_id)
           else
             return null;
 }
+
+function get_imageprincipal_product($id){
+  global $db;
+  $id = (int)$id;
+  $sql = $db->query("SELECT * FROM imagenprincipal WHERE id='{$db->escape($id)}' LIMIT 1");
+  if($result = $db->fetch_assoc($sql))
+            return $result;
+          else
+            return null;
+}
 /*--------------------------------------------------------------*/
 /* Function for Delete data from table by id
 /*--------------------------------------------------------------*/
@@ -248,10 +258,10 @@ function tableExists($table){
   function join_product_table(){
      global $db;
       $sql  =" SELECT f.id,f.activo, f.nombre,f.cantidad,f.imagenprincipal_id, ip.file_name as 'imagenprincipal', f.precio,c.nombre";
-      $sql  .=" AS categoria,img.file_name AS image";
+      $sql  .=" AS categoria";
       $sql  .=" FROM flores f";
-      $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
-      $sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
+      //$sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
+      //$sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
       $sql  .=" LEFT JOIN imagenprincipal ip ON ip.id = f.imagenprincipal_id";
       $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
       $sql  .=" GROUP BY f.id";
@@ -265,10 +275,10 @@ function tableExists($table){
     global $db;
     
     $sql  =" SELECT  f.id,f.activo, f.nombre,f.cantidad,f.precio,c.nombre";
-    $sql  .=" AS categoria,img.file_name AS image";
+    $sql  .=" AS categoria";
     $sql  .=" FROM flores f";
-    $sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
-    $sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
+    //$sql  .=" INNER JOIN flores_has_imagen fm on f.id = fm.flores_id";
+    //$sql  .=" INNER JOIN imagen img on fm.imagen_id = img.id";
     $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
     $sql  .=" LEFT JOIN agenda ag ON ag.flores_id = f.id";           
     $sql  .=" WHERE ag.dia = $day AND ag.mes = $month";
