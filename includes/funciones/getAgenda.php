@@ -31,10 +31,10 @@ if (count($getFlores) == 0) {
   	<a href="detail.php?flor_id=<?php echo $flor['id']; ?>">	
 	  <div class="wrapper">
 		  <div class="box">
-			  <?php if($flor['image'] === '0'): ?>
+			  <?php if($flor['imagenprincipal'] === '0'): ?>
 				  <img class="img-avatar img-circle" src="img/no_image.jpg" alt="">
 			  <?php else: ?>
-				  <img class="img_product" src="admin/uploads/products/<?php echo $flor['image'];?>">	
+				  <img class="img_product" src="admin/uploads/products/<?php echo $flor['imagenprincipal'];?>">	
 			  <?php endif; ?>			
 				  <p><?php echo $flor["nombre"]; ?> </p>						
 				  <p><?php echo "$" . $flor["precio"]; ?> </p>					
