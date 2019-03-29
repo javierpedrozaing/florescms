@@ -36,7 +36,7 @@ $sqltamanos = $db->query("SELECT * FROM tamano");
 <div class="detail container">	
 	<div class="row">	    	
 	    <div class="col-md-6">	     	    		
-			<div class="image">
+			<div class="imageprincipal">
 				<img  src="admin/uploads/products/<?php echo $flor["imagenprincipal"] ?>" alt="">													
 			</div>				
 	    </div>

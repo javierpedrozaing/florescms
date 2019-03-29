@@ -38,6 +38,12 @@ body {
     width: 20%;
   }
 
+  .detail.container .imageprincipal img{
+    width: 50%;
+    margin: 60px;
+
+  }
+
 
   .content_products .img_product{
     width: 50%;
