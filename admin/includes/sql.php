@@ -282,8 +282,8 @@ function tableExists($table){
     $sql  .=" LEFT JOIN imagenprincipal ip ON ip.id = f.imagenprincipal_id";
     $sql  .=" LEFT JOIN categorias c ON c.id = f.categorias_id";           
     $sql  .=" LEFT JOIN agenda ag ON ag.flores_id = f.id";           
-    $sql  .=" WHERE ag.dia = $day AND ag.mes = $month";
-    $sql  .=" GROUP BY f.id";
+    $sql  .=" WHERE ag.dia = $day AND ag.mes = $month AND f.activo = 1" ;    
+    $sql  .=" GROUP BY f.id";    
     $sql  .=" ORDER BY f.id ASC";
     return find_by_sql($sql);
 

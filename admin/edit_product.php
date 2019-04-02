@@ -34,7 +34,7 @@ if(!$product){
     $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'agenda', 'activo');
     validate_fields($req_fields);
     $req_fields_image = array('first-image');
-    validate_fields_image($req_fields_image);
+    //validate_fields_image($req_fields_image);
    if(empty($errors)){
        $p_name  = remove_junk($db->escape($_POST['product-title']));
        $p_cat   = (int)$_POST['product-categorie'];
